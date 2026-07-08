@@ -1,0 +1,5 @@
+# Copy to docker-compose.override.yml for local dev tweaks (hot-reload, exposed debug ports, etc.)
+# This file is intentionally NOT auto-applied; docker-compose.override.yml is gitignored.
+services:
+  backend:
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload

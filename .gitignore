@@ -41,3 +41,13 @@ coverage/
 
 # Alembic local
 backend/alembic/versions/__pycache__/
+
+# Node/root tooling
+node_modules/
+
+# Local docker overrides
+docker-compose.override.yml
+
+# mypy/ruff caches
+.mypy_cache/
+.ruff_cache/
