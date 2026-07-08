@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Node / Frontend
+node_modules/
+dist/
+build/
+.vite/
+.turbo/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# ML artifacts (large binaries - use LFS or object storage)
+*.joblib
+*.pt
+*.onnx
+!backend/app/ml/models/.gitkeep
+
+# Coverage / test
+.coverage
+htmlcov/
+.pytest_cache/
+coverage/
+
+# Alembic local
+backend/alembic/versions/__pycache__/
