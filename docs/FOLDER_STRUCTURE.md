@@ -3,7 +3,19 @@
 ```
 LaboraX/
 ├── README.md
+├── CONTRIBUTING.md
+├── CODEOWNERS
 ├── .gitignore
+├── .editorconfig
+├── package.json               # root: husky, lint-staged, commitlint
+├── commitlint.config.js
+├── .lintstagedrc.json
+├── .husky/                     # pre-commit / commit-msg / pre-push git hooks
+├── docker-compose.yml           # full local stack: postgres, redis, backend, frontend
+├── .github/
+│   ├── workflows/                # ci.yml, commitlint.yml, deploy.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── ISSUE_TEMPLATE/
 ├── docs/
 │   ├── PRD.md                     # Product Requirements Document
 │   ├── HLD.md                     # High-Level Design
@@ -12,9 +24,16 @@ LaboraX/
 │   └── FOLDER_STRUCTURE.md        # This file
 │
 ├── backend/                        # Single unified FastAPI backend
+│   ├── pyproject.toml               # ruff + mypy + pytest config
 │   ├── requirements.txt
+│   ├── requirements-dev.txt
+│   ├── pytest.ini
+│   ├── Makefile                      # lint/format/typecheck/test/run/migrate
+│   ├── Dockerfile
+│   ├── .dockerignore
+│   ├── .env.example
 │   ├── alembic.ini
-│   ├── alembic/                    # DB migrations
+│   ├── alembic/                    # DB migrations (async env.py)
 │   ├── app/
 │   │   ├── main.py                  # FastAPI app factory
 │   │   ├── core/                     # config, security, deps, logging
@@ -45,6 +64,12 @@ LaboraX/
 │
 ├── frontend/                        # React + TypeScript
 │   ├── package.json
+│   ├── tsconfig.json / tsconfig.app.json / tsconfig.node.json
+│   ├── vite.config.ts               # includes vitest config
+│   ├── .eslintrc.cjs
+│   ├── .prettierrc.json / .prettierignore
+│   ├── Dockerfile
+│   ├── .dockerignore
 │   ├── index.html
 │   ├── public/
 │   └── src/

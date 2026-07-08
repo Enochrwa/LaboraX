@@ -1,0 +1,18 @@
+{
+  "name": "laborax",
+  "private": true,
+  "version": "0.1.0",
+  "description": "LaboraX monorepo root - git hooks, commit linting, and workspace-wide tooling.",
+  "scripts": {
+    "prepare": "husky install",
+    "lint:frontend": "npm --prefix frontend run lint",
+    "format:frontend": "npm --prefix frontend run format",
+    "test:frontend": "npm --prefix frontend run test"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7"
+  }
+}

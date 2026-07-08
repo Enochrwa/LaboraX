@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+echo "Running backend tests before push..."
+(cd backend && python -m pytest -q) || exit 1
+echo "Running frontend tests before push..."
+(cd frontend && npm run test) || exit 1
