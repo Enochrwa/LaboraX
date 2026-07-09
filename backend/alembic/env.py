@@ -1,4 +1,5 @@
 """Alembic migration environment for LaboraX (async SQLAlchemy)."""
+
 import asyncio
 from logging.config import fileConfig
 

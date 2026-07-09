@@ -1,4 +1,5 @@
 """Centralized, environment-driven application settings."""
+
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -13,7 +14,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+asyncpg://laborax:laborax@localhost:5432/laborax"
     redis_url: str = "redis://localhost:6379/0"
 
-    jwt_secret_key: str = "change-me-in-production"
+    jwt_secret_key: str = "change-me-in-production-please-use-a-random-32-byte-secret"
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
     refresh_token_expire_days: int = 7

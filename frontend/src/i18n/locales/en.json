@@ -1,0 +1,39 @@
+{
+  "app": {
+    "name": "LaboraX",
+    "tagline": "AI Practical Laboratory Simulator"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to LaboraX",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Create one",
+      "error": "Incorrect email or password."
+    },
+    "register": {
+      "title": "Create your LaboraX account",
+      "fullName": "Full name",
+      "email": "Email",
+      "password": "Password",
+      "institution": "Institution (optional)",
+      "role": "I am a",
+      "roleStudent": "Student",
+      "roleLecturer": "Lecturer",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "error": "We couldn't create your account. Please try again."
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {{name}}",
+    "subtitle": "Your virtual laboratory is ready.",
+    "logout": "Log out"
+  },
+  "common": {
+    "loading": "Loading..."
+  }
+}

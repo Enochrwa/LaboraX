@@ -1,4 +1,5 @@
 """Sanity test proving the CI pipeline can run the FastAPI app end-to-end."""
+
 import pytest
 from httpx import AsyncClient
 

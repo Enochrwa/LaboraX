@@ -1,0 +1,39 @@
+{
+  "app": {
+    "name": "LaboraX",
+    "tagline": "Igikoresho cy'ubushakashatsi bwa laboratwari gikoresha AI"
+  },
+  "auth": {
+    "login": {
+      "title": "Injira muri LaboraX",
+      "email": "Imeyili",
+      "password": "Ijambobanga",
+      "submit": "Injira",
+      "noAccount": "Nta konti ufite?",
+      "registerLink": "Fungura konti",
+      "error": "Imeyili cyangwa ijambobanga sibyo."
+    },
+    "register": {
+      "title": "Fungura konti yawe ya LaboraX",
+      "fullName": "Amazina yombi",
+      "email": "Imeyili",
+      "password": "Ijambobanga",
+      "institution": "Ishuri/Ikigo (si ngombwa)",
+      "role": "Ndi",
+      "roleStudent": "Umunyeshuri",
+      "roleLecturer": "Umwarimu",
+      "submit": "Fungura konti",
+      "haveAccount": "Usanzwe ufite konti?",
+      "loginLink": "Injira",
+      "error": "Ntibyakunze gufungura konti yawe. Ongera ugerageze."
+    }
+  },
+  "dashboard": {
+    "welcome": "Murakaza neza, {{name}}",
+    "subtitle": "Laboratwari yawe ya mudasobwa iteguwe.",
+    "logout": "Sohoka"
+  },
+  "common": {
+    "loading": "Birimo gutegurwa..."
+  }
+}

@@ -1,10 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
 import App from "./App";
 
 describe("App", () => {
-  it("renders the LaboraX heading", () => {
+  it("redirects unauthenticated users to the login page", async () => {
     render(<App />);
-    expect(screen.getByText("LaboraX")).toBeInTheDocument();
+    expect(await screen.findByText("Sign in to LaboraX")).toBeInTheDocument();
   });
 });
