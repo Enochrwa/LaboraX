@@ -1,0 +1,112 @@
+[
+  {
+    "name": "Malaria",
+    "category": "hematology",
+    "symptom_template": {
+      "chief_complaint": "fever with chills for the past {duration_days} days",
+      "required": ["fever", "chills", "headache", "sweating"],
+      "optional": ["fatigue", "nausea", "muscle aches", "loss of appetite", "mild jaundice"],
+      "vitals": {
+        "temperature_c": [38.5, 40.5],
+        "heart_rate_bpm": [90, 130],
+        "respiratory_rate_bpm": [18, 26],
+        "blood_pressure_systolic": [95, 120]
+      },
+      "duration_days": [2, 6]
+    },
+    "lab_pattern_template": {
+      "expected_findings": [
+        "Hemoglobin is decreased, consistent with hemolytic anemia",
+        "Platelet count is decreased (thrombocytopenia)",
+        "Ring-form trophozoites are visible on the thin blood film",
+        "Total white cell count is normal to mildly decreased",
+        "Reticulocyte count is elevated, reflecting compensatory marrow response"
+      ],
+      "cbc_deltas": {
+        "hemoglobin_g_dl": [-6.0, -2.0],
+        "platelets_10e9_l": [-160, -60],
+        "wbc_10e9_l": [-2.0, 0.5],
+        "reticulocyte_pct": [1.0, 3.5]
+      },
+      "blood_film_findings": ["ring-form trophozoites", "occasional gametocytes"]
+    },
+    "difficulty_levels": {
+      "novice": { "symptom_count": 4, "noise_symptom_count": 0 },
+      "intermediate": { "symptom_count": 5, "noise_symptom_count": 1 },
+      "advanced": { "symptom_count": 6, "noise_symptom_count": 2 }
+    }
+  },
+  {
+    "name": "Iron Deficiency Anemia",
+    "category": "hematology",
+    "symptom_template": {
+      "chief_complaint": "progressive fatigue and weakness over {duration_days} days",
+      "required": ["fatigue", "pallor", "shortness of breath on exertion"],
+      "optional": ["dizziness", "headache", "brittle nails", "pica", "reduced exercise tolerance"],
+      "vitals": {
+        "temperature_c": [36.4, 37.2],
+        "heart_rate_bpm": [85, 115],
+        "respiratory_rate_bpm": [14, 20],
+        "blood_pressure_systolic": [95, 125]
+      },
+      "duration_days": [14, 90]
+    },
+    "lab_pattern_template": {
+      "expected_findings": [
+        "Hemoglobin is decreased, consistent with a microcytic hypochromic anemia",
+        "Mean corpuscular volume (MCV) is decreased (microcytosis)",
+        "Mean corpuscular hemoglobin (MCH) is decreased (hypochromia)",
+        "Red cell distribution width (RDW) is increased, reflecting anisocytosis",
+        "Serum ferritin is decreased, confirming depleted iron stores"
+      ],
+      "cbc_deltas": {
+        "hemoglobin_g_dl": [-5.0, -1.5],
+        "mcv_fl": [-25.0, -8.0],
+        "mch_pg": [-8.0, -2.0],
+        "rdw_pct": [2.0, 6.0]
+      },
+      "blood_film_findings": ["microcytosis", "hypochromia", "anisopoikilocytosis"]
+    },
+    "difficulty_levels": {
+      "novice": { "symptom_count": 3, "noise_symptom_count": 0 },
+      "intermediate": { "symptom_count": 4, "noise_symptom_count": 1 },
+      "advanced": { "symptom_count": 5, "noise_symptom_count": 2 }
+    }
+  },
+  {
+    "name": "Generic Bacterial Infection",
+    "category": "hematology",
+    "symptom_template": {
+      "chief_complaint": "fever and malaise for {duration_days} days",
+      "required": ["fever", "malaise", "localized pain"],
+      "optional": ["chills", "sweating", "reduced appetite", "tachycardia", "mild confusion"],
+      "vitals": {
+        "temperature_c": [37.8, 39.8],
+        "heart_rate_bpm": [95, 125],
+        "respiratory_rate_bpm": [18, 24],
+        "blood_pressure_systolic": [100, 130]
+      },
+      "duration_days": [1, 5]
+    },
+    "lab_pattern_template": {
+      "expected_findings": [
+        "Total white cell count is elevated (leukocytosis)",
+        "Neutrophil count is elevated with a left shift (increased band forms)",
+        "C-reactive protein is elevated, consistent with an acute inflammatory response",
+        "Hemoglobin and platelet counts remain within normal limits"
+      ],
+      "cbc_deltas": {
+        "wbc_10e9_l": [4.0, 12.0],
+        "neutrophil_pct": [10.0, 25.0],
+        "hemoglobin_g_dl": [-0.5, 0.5],
+        "platelets_10e9_l": [-20, 40]
+      },
+      "blood_film_findings": ["toxic granulation", "occasional band forms"]
+    },
+    "difficulty_levels": {
+      "novice": { "symptom_count": 3, "noise_symptom_count": 0 },
+      "intermediate": { "symptom_count": 4, "noise_symptom_count": 1 },
+      "advanced": { "symptom_count": 5, "noise_symptom_count": 2 }
+    }
+  }
+]

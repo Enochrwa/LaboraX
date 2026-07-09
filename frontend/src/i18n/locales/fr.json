@@ -31,7 +31,36 @@
   "dashboard": {
     "welcome": "Bon retour, {{name}}",
     "subtitle": "Votre laboratoire virtuel est prêt.",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "startHematologyCase": "Démarrer un cas d'hématologie"
+  },
+  "hematology": {
+    "caseIntake": {
+      "title": "Cas du patient",
+      "subtitle": "Examinez la présentation du patient avant de prescrire des examens.",
+      "backToDashboard": "Retour au tableau de bord",
+      "error": "Impossible de générer un cas. Veuillez réessayer.",
+      "clinicalHistory": "Antécédents cliniques",
+      "presentingSymptoms": "Symptômes présentés",
+      "vitals": "Signes vitaux",
+      "newCase": "Obtenir un nouveau cas",
+      "age": "{{age}} ans",
+      "difficulty": {
+        "novice": "Débutant",
+        "intermediate": "Intermédiaire",
+        "advanced": "Avancé"
+      },
+      "sex": {
+        "male": "Homme",
+        "female": "Femme"
+      },
+      "vitalLabels": {
+        "temperature_c": "Température (°C)",
+        "heart_rate_bpm": "Fréquence cardiaque (bpm)",
+        "respiratory_rate_bpm": "Fréquence respiratoire (bpm)",
+        "blood_pressure_systolic": "TA systolique (mmHg)"
+      }
+    }
   },
   "common": {
     "loading": "Chargement..."

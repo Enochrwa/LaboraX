@@ -1,4 +1,4 @@
-.PHONY: install dev lint format typecheck test cov run migrate
+.PHONY: install dev lint format typecheck test cov run migrate seed
 
 install:
 	pip install -r requirements-dev.txt
@@ -26,3 +26,6 @@ run:
 
 migrate:
 	alembic upgrade head
+
+seed:
+	python -m app.db.seed

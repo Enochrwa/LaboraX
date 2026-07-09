@@ -31,7 +31,36 @@
   "dashboard": {
     "welcome": "Welcome back, {{name}}",
     "subtitle": "Your virtual laboratory is ready.",
-    "logout": "Log out"
+    "logout": "Log out",
+    "startHematologyCase": "Start a hematology case"
+  },
+  "hematology": {
+    "caseIntake": {
+      "title": "Patient case",
+      "subtitle": "Review the patient's presentation before ordering tests.",
+      "backToDashboard": "Back to dashboard",
+      "error": "We couldn't generate a case. Please try again.",
+      "clinicalHistory": "Clinical history",
+      "presentingSymptoms": "Presenting symptoms",
+      "vitals": "Vitals",
+      "newCase": "Get a new case",
+      "age": "{{age}} years old",
+      "difficulty": {
+        "novice": "Novice",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      },
+      "sex": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "vitalLabels": {
+        "temperature_c": "Temperature (°C)",
+        "heart_rate_bpm": "Heart rate (bpm)",
+        "respiratory_rate_bpm": "Respiratory rate (bpm)",
+        "blood_pressure_systolic": "Systolic BP (mmHg)"
+      }
+    }
   },
   "common": {
     "loading": "Loading..."

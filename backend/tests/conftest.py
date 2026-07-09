@@ -25,6 +25,8 @@ from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.base import Base
+from app.db.models.disease import Disease
+from app.db.seed import seed_diseases
 from app.db.session import AsyncSessionLocal, engine, get_db
 from app.main import app
 
@@ -52,6 +54,16 @@ async def _managed_schema() -> AsyncGenerator[None, None]:
 async def db_session() -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSessionLocal() as session:
         yield session
+
+
+@pytest.fixture
+async def seeded_diseases(db_session: AsyncSession) -> list[Disease]:
+    """Loads the real `app/ml/data/*.json` disease templates into the test DB.
+
+    Using the real seed data (rather than ad-hoc fixtures) keeps case
+    generation tests honest against what actually ships.
+    """
+    return await seed_diseases(db_session)
 
 
 @pytest.fixture

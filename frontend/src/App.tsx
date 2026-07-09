@@ -6,6 +6,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LoginPage } from "@/features/auth/LoginPage";
 import { RegisterPage } from "@/features/auth/RegisterPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
+import { CaseIntakePage } from "@/features/hematology/CaseIntakePage";
 
 function AppRoutes(): JSX.Element {
   return (
@@ -17,6 +18,14 @@ function AppRoutes(): JSX.Element {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/hematology/case"
+        element={
+          <ProtectedRoute>
+            <CaseIntakePage />
           </ProtectedRoute>
         }
       />
