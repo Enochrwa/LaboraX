@@ -1,0 +1,7 @@
+version: 2
+# Test fixture credentials are generated at runtime (see
+# backend/tests/conftest.py and frontend/src/test-utils/fixtures.ts) rather
+# than hardcoded, so there should be nothing here to match going forward.
+# Paths kept minimal on purpose — we prefer "no static secret exists" over
+# "trust an allowlist".
+paths-ignore: []

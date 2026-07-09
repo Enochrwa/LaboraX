@@ -1,4 +1,5 @@
 """Integration-level smoke test: the app object builds without error."""
+
 from app.main import create_app
 
 

@@ -35,9 +35,13 @@ Thumbs.db
 
 # Coverage / test
 .coverage
+coverage.xml
 htmlcov/
 .pytest_cache/
 coverage/
+
+# TypeScript incremental build info
+*.tsbuildinfo
 
 # Alembic local
 backend/alembic/versions/__pycache__/

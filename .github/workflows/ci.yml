@@ -17,6 +17,21 @@ jobs:
     defaults:
       run:
         working-directory: backend
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: laborax
+          POSTGRES_PASSWORD: laborax
+          POSTGRES_DB: laborax_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U laborax"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql+asyncpg://laborax:laborax@localhost:5432/laborax_test
     steps:
       - uses: actions/checkout@v4
 

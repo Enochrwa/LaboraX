@@ -1,0 +1,39 @@
+{
+  "app": {
+    "name": "LaboraX",
+    "tagline": "Simulateur de laboratoire pratique par IA"
+  },
+  "auth": {
+    "login": {
+      "title": "Connectez-vous à LaboraX",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "registerLink": "Créer un compte",
+      "error": "E-mail ou mot de passe incorrect."
+    },
+    "register": {
+      "title": "Créez votre compte LaboraX",
+      "fullName": "Nom complet",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "institution": "Établissement (facultatif)",
+      "role": "Je suis",
+      "roleStudent": "Étudiant(e)",
+      "roleLecturer": "Enseignant(e)",
+      "submit": "Créer le compte",
+      "haveAccount": "Vous avez déjà un compte ?",
+      "loginLink": "Se connecter",
+      "error": "Impossible de créer votre compte. Veuillez réessayer."
+    }
+  },
+  "dashboard": {
+    "welcome": "Bon retour, {{name}}",
+    "subtitle": "Votre laboratoire virtuel est prêt.",
+    "logout": "Se déconnecter"
+  },
+  "common": {
+    "loading": "Chargement..."
+  }
+}
