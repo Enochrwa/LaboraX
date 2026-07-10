@@ -31,7 +31,36 @@
   "dashboard": {
     "welcome": "Murakaza neza, {{name}}",
     "subtitle": "Laboratwari yawe ya mudasobwa iteguwe.",
-    "logout": "Sohoka"
+    "logout": "Sohoka",
+    "startHematologyCase": "Tangira ikizamini cy'amaraso"
+  },
+  "hematology": {
+    "caseIntake": {
+      "title": "Umurwayi wo gusuzuma",
+      "subtitle": "Suzuma neza ibimenyetso by'umurwayi mbere yo gusaba ibizamini.",
+      "backToDashboard": "Subira ku ipaji nyamukuru",
+      "error": "Ntibyakunze gutegura umurwayi. Ongera ugerageze.",
+      "clinicalHistory": "Amateka y'uburwayi",
+      "presentingSymptoms": "Ibimenyetso agaragaza",
+      "vitals": "Ibipimo by'ubuzima",
+      "newCase": "Saba undi murwayi",
+      "age": "Imyaka {{age}}",
+      "difficulty": {
+        "novice": "Umutangira",
+        "intermediate": "Hagati",
+        "advanced": "Uwagezeho"
+      },
+      "sex": {
+        "male": "Gabo",
+        "female": "Gore"
+      },
+      "vitalLabels": {
+        "temperature_c": "Ubushyuhe (°C)",
+        "heart_rate_bpm": "Uko umutima utera (bpm)",
+        "respiratory_rate_bpm": "Uko guhumeka (bpm)",
+        "blood_pressure_systolic": "Umuvuduko w'amaraso (mmHg)"
+      }
+    }
   },
   "common": {
     "loading": "Birimo gutegurwa..."

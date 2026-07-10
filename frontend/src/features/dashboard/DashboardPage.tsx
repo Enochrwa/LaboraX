@@ -2,6 +2,7 @@ import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import type { JSX } from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Link as RouterLink } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useAppStore";
 import { fetchCurrentUser, logout } from "@/store/authSlice";
@@ -27,6 +28,16 @@ export function DashboardPage(): JSX.Element {
           <Typography variant="body1" color="text.secondary">
             {t("dashboard.subtitle")}
           </Typography>
+          {(!user || user.role === "student") && (
+            <Button
+              component={RouterLink}
+              to="/hematology/case"
+              variant="contained"
+              sx={{ alignSelf: "flex-start" }}
+            >
+              {t("dashboard.startHematologyCase")}
+            </Button>
+          )}
           <Button
             variant="outlined"
             onClick={() => dispatch(logout())}

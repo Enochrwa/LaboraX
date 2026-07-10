@@ -108,3 +108,8 @@ asyncio_default_test_loop_scope = "session"
 [tool.coverage.run]
 source = ["app"]
 omit = ["app/ml/training/*", "*/__init__.py"]
+# SQLAlchemy's async engine bridges to sync DBAPI code via greenlet; without
+# this, coverage.py's tracer loses the thread across greenlet switches and
+# under-reports every route that awaits a DB call (visible as suspiciously
+# "uncovered" lines that tests clearly do exercise).
+concurrency = ["greenlet"]

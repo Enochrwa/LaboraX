@@ -26,7 +26,7 @@ This mirrors the same reasoning already in `HLD.md` §7 (why the backend stayed 
 
 **Deliverable:** deployable skeleton with working auth end-to-end.
 
-### Sprint 2 — Case Data Model & Generator v1
+### Sprint 2 — Case Data Model & Generator v1 ✅
 - `diseases`, `cases` tables + migrations
 - Seed disease/symptom/lab-pattern data (Hematology: malaria, anemia, generic infection)
 - `CaseGenerator` service v1 (template-based, deterministic seeding)
@@ -34,6 +34,15 @@ This mirrors the same reasoning already in `HLD.md` §7 (why the backend stayed 
 - Frontend: dashboard + case intake view
 
 **Deliverable:** student can log in and receive a generated virtual patient case.
+
+> **Status:** implemented on `feature/sprint-two-implementation`. `Disease`/`Case` models +
+> Alembic migration (`4f931cec4aae`); three hematology disease templates seeded via
+> `app/db/seed.py` (`make seed`); `CaseGenerator` (`app/services/case_generator/generator.py`)
+> produces deterministic, difficulty-scaled cases from a `(disease, difficulty, seed)` triple;
+> `GET /api/v1/cases/next` (student-only) and `GET /api/v1/cases/{id}` (student/lecturer/admin)
+> routes added; dashboard now links to a new `/hematology/case` intake page showing patient
+> demographics, chief complaint, presenting symptoms, and vitals, with a "get a new case" action.
+> 46 backend tests / 13 frontend tests added, all green; ruff, mypy, ESLint, Prettier, tsc all clean.
 
 ### Sprint 3 — Test Ordering & Result Generation
 - `test_catalog`, `test_orders`, `results` tables

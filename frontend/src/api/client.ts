@@ -15,18 +15,31 @@ type RequestOptions = {
   method?: "GET" | "POST" | "PATCH" | "DELETE";
   body?: unknown;
   token?: string | null;
+  params?: Record<string, string | number | boolean | undefined>;
 };
+
+function buildQueryString(params?: RequestOptions["params"]): string {
+  if (!params) return "";
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== undefined) {
+      search.set(key, String(value));
+    }
+  }
+  const query = search.toString();
+  return query ? `?${query}` : "";
+}
 
 export async function apiRequest<TResponse>(
   path: string,
-  { method = "GET", body, token }: RequestOptions = {},
+  { method = "GET", body, token, params }: RequestOptions = {},
 ): Promise<TResponse> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(`${API_BASE_URL}${path}${buildQueryString(params)}`, {
     method,
     headers,
     body: body !== undefined ? JSON.stringify(body) : undefined,
