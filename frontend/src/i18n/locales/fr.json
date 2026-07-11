@@ -95,7 +95,24 @@
         "ast_u_l": "ASAT (U/L)",
         "urine_protein_mg_dl": "Protéines urinaires (mg/dL)",
         "urine_glucose_mg_dl": "Glucose urinaire (mg/dL)"
-      }
+      },
+      "submitInterpretation": "Soumettre votre interpretation"
+    },
+    "interpretation": {
+      "title": "Interpreter les resultats",
+      "subtitle": "Decrivez ce que montrent les resultats, avec vos propres mots.",
+      "loadError": "Impossible de charger votre historique d'interpretations. Veuillez reessayer.",
+      "submitError": "Impossible de soumettre cette interpretation. Veuillez reessayer.",
+      "inputLabel": "Votre interpretation",
+      "inputPlaceholder": "ex. L'hemoglobine est diminuee, ce qui est compatible avec une anemie...",
+      "submit": "Soumettre l'interpretation",
+      "submitting": "Evaluation en cours...",
+      "scoreLabel": "Score",
+      "scoreValue": "{{score}} / 100",
+      "confirmed": "Resultats que vous avez identifies",
+      "missing": "Resultats manques",
+      "incorrect": "Affirmations qui ne correspondent pas au cas",
+      "previousAttempts": "Tentatives precedentes ({{count}})"
     }
   },
   "common": {

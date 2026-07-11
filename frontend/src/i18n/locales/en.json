@@ -95,7 +95,24 @@
         "ast_u_l": "AST (U/L)",
         "urine_protein_mg_dl": "Urine protein (mg/dL)",
         "urine_glucose_mg_dl": "Urine glucose (mg/dL)"
-      }
+      },
+      "submitInterpretation": "Submit your interpretation"
+    },
+    "interpretation": {
+      "title": "Interpret the results",
+      "subtitle": "Describe what the results show, in your own words.",
+      "loadError": "We couldn't load your interpretation history. Please try again.",
+      "submitError": "We couldn't submit that interpretation. Please try again.",
+      "inputLabel": "Your interpretation",
+      "inputPlaceholder": "e.g. Hemoglobin is decreased, consistent with anemia...",
+      "submit": "Submit interpretation",
+      "submitting": "Evaluating...",
+      "scoreLabel": "Score",
+      "scoreValue": "{{score}} / 100",
+      "confirmed": "Findings you identified",
+      "missing": "Findings you missed",
+      "incorrect": "Statements that don't match the case",
+      "previousAttempts": "Previous attempts ({{count}})"
     }
   },
   "common": {
