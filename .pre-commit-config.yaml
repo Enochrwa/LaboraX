@@ -1,0 +1,43 @@
+# Python-side pre-commit hooks for `backend/`. The frontend's equivalent
+# (ESLint + Prettier via lint-staged) is wired up through Husky — see
+# `.husky/pre-commit` and `.lintstagedrc.json`. Install with:
+#
+#   pip install pre-commit   # already a `backend` dev dependency
+#   pre-commit install
+#
+# CI enforces the same checks independently (see `.github/workflows/ci.yml`),
+# so this is a fast local feedback loop, not the source of truth.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.5.6
+    hooks:
+      - id: ruff
+        name: ruff (lint)
+        args: [--fix]
+        files: ^backend/
+      - id: ruff-format
+        name: ruff (format)
+        files: ^backend/
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: bash -c 'cd backend && mypy app'
+        language: system
+        files: ^backend/app/
+        pass_filenames: false
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^frontend/(dist|node_modules)/
+      - id: end-of-file-fixer
+        exclude: ^frontend/(dist|node_modules)/
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: check-yaml
+      - id: check-json
+        exclude: ^frontend/tsconfig.*\.json$

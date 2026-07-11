@@ -26,7 +26,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.base import Base
 from app.db.models.disease import Disease
-from app.db.seed import seed_diseases
+from app.db.models.test_catalog import TestCatalog
+from app.db.seed import seed_diseases, seed_test_catalog
 from app.db.session import AsyncSessionLocal, engine, get_db
 from app.main import app
 
@@ -64,6 +65,12 @@ async def seeded_diseases(db_session: AsyncSession) -> list[Disease]:
     generation tests honest against what actually ships.
     """
     return await seed_diseases(db_session)
+
+
+@pytest.fixture
+async def seeded_test_catalog(db_session: AsyncSession) -> list[TestCatalog]:
+    """Loads the real `app/ml/data/test_catalog.json` orderable tests."""
+    return await seed_test_catalog(db_session)
 
 
 @pytest.fixture

@@ -1,8 +1,8 @@
-"""Idempotent seeding of `diseases` from `app/ml/data/*.json`.
+"""Idempotent seeding of `diseases` and `test_catalog` from `app/ml/data/*.json`.
 
 Run via `make seed` (see `backend/Makefile`) or `python -m app.db.seed`.
 Also used directly by the test suite so integration tests always have a
-known, deterministic set of disease templates to generate cases from.
+known, deterministic set of disease templates and orderable tests.
 """
 
 from __future__ import annotations
@@ -14,7 +14,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models.disease import Disease, DiseaseCategory
+from app.db.models.test_catalog import TestCatalog
 from app.services.case_generator.seed_data import load_disease_seed_definitions
+from app.services.test_ordering.catalog_seed_data import load_test_catalog_definitions
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +61,44 @@ async def seed_diseases(db: AsyncSession) -> list[Disease]:
     return list(all_diseases)
 
 
+async def seed_test_catalog(db: AsyncSession) -> list[TestCatalog]:
+    """Insert any test-catalog seed definitions not already present (by code).
+
+    Additive/idempotent, mirroring `seed_diseases` above.
+    """
+    definitions = load_test_catalog_definitions()
+    if not definitions:
+        logger.warning("seed_test_catalog_no_definitions_found")
+        return []
+
+    existing_codes = set(
+        (await db.execute(select(TestCatalog.code))).scalars().all(),
+    )
+
+    created: list[TestCatalog] = []
+    for definition in definitions:
+        if definition["code"] in existing_codes:
+            continue
+        test = TestCatalog(
+            code=definition["code"],
+            name=definition["name"],
+            category=DiseaseCategory(definition["category"]),
+            cost_weight=float(definition["cost_weight"]),
+            relevance_rules=definition["relevance_rules"],
+        )
+        db.add(test)
+        created.append(test)
+
+    if created:
+        await db.commit()
+        for test in created:
+            await db.refresh(test)
+        logger.info("seed_test_catalog_created", extra={"count": len(created)})
+
+    all_tests = (await db.execute(select(TestCatalog))).scalars().all()
+    return list(all_tests)
+
+
 async def _main() -> None:
     from app.core.logging import configure_logging
     from app.db.session import AsyncSessionLocal
@@ -66,7 +106,11 @@ async def _main() -> None:
     configure_logging()
     async with AsyncSessionLocal() as session:
         diseases = await seed_diseases(session)
-    logger.info("seed_diseases_complete", extra={"total": len(diseases)})
+        tests = await seed_test_catalog(session)
+    logger.info(
+        "seed_complete",
+        extra={"diseases_total": len(diseases), "tests_total": len(tests)},
+    )
 
 
 if __name__ == "__main__":

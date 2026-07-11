@@ -1,0 +1,74 @@
+[
+  {
+    "code": "CBC",
+    "name": "Complete Blood Count",
+    "category": "hematology",
+    "cost_weight": 1.0,
+    "relevance_rules": {
+      "core": true,
+      "measured_parameters": [
+        "hemoglobin_g_dl",
+        "wbc_10e9_l",
+        "platelets_10e9_l",
+        "mcv_fl",
+        "mch_pg",
+        "rdw_pct",
+        "neutrophil_pct"
+      ]
+    }
+  },
+  {
+    "code": "PBF",
+    "name": "Peripheral Blood Film",
+    "category": "hematology",
+    "cost_weight": 1.5,
+    "relevance_rules": {
+      "requires_pattern": "blood_film_findings"
+    }
+  },
+  {
+    "code": "RETIC",
+    "name": "Reticulocyte Count",
+    "category": "hematology",
+    "cost_weight": 1.0,
+    "relevance_rules": {
+      "measured_parameters": ["reticulocyte_pct"]
+    }
+  },
+  {
+    "code": "FERRITIN",
+    "name": "Serum Ferritin",
+    "category": "chemistry",
+    "cost_weight": 1.2,
+    "relevance_rules": {
+      "measured_parameters": ["ferritin_ng_ml"]
+    }
+  },
+  {
+    "code": "CRP",
+    "name": "C-Reactive Protein",
+    "category": "chemistry",
+    "cost_weight": 1.2,
+    "relevance_rules": {
+      "measured_parameters": ["crp_mg_l"]
+    }
+  },
+  {
+    "code": "LFT",
+    "name": "Liver Function Test",
+    "category": "chemistry",
+    "cost_weight": 2.0,
+    "relevance_rules": {
+      "measured_parameters": ["alt_u_l", "ast_u_l"]
+    }
+  },
+  {
+    "code": "URINALYSIS",
+    "name": "Urinalysis",
+    "category": "microbiology",
+    "cost_weight": 1.0,
+    "relevance_rules": {
+      "measured_parameters": ["urine_protein_mg_dl", "urine_glucose_mg_dl"]
+    }
+  }
+]

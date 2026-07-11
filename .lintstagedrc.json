@@ -1,10 +1,10 @@
 {
   "frontend/**/*.{ts,tsx}": [
     "bash -c 'cd frontend && npx eslint --fix --max-warnings 0'",
-    "bash -c 'cd frontend && npx prettier --write'"
+    "bash -c 'cd frontend && npx prettier --write .'"
   ],
   "frontend/**/*.{json,css,md}": [
-    "bash -c 'cd frontend && npx prettier --write'"
+    "bash -c 'cd frontend && npx prettier --write .'"
   ],
   "backend/**/*.py": [
     "bash -c 'cd backend && ruff check --fix'",

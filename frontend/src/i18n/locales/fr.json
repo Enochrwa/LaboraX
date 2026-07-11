@@ -44,6 +44,7 @@
       "presentingSymptoms": "Symptômes présentés",
       "vitals": "Signes vitaux",
       "newCase": "Obtenir un nouveau cas",
+      "orderTests": "Prescrire des examens",
       "age": "{{age}} ans",
       "difficulty": {
         "novice": "Débutant",
@@ -59,6 +60,41 @@
         "heart_rate_bpm": "Fréquence cardiaque (bpm)",
         "respiratory_rate_bpm": "Fréquence respiratoire (bpm)",
         "blood_pressure_systolic": "TA systolique (mmHg)"
+      }
+    },
+    "testOrdering": {
+      "title": "Prescrire des examens",
+      "subtitle": "Choisissez les examens à prescrire pour ce patient.",
+      "loadError": "Impossible de charger le catalogue d'examens ou les résultats. Veuillez réessayer.",
+      "orderError": "Impossible d'envoyer cette prescription. Veuillez réessayer.",
+      "selectTests": "Examens disponibles",
+      "orderSelected": "Prescrire les examens sélectionnés",
+      "ordering": "Prescription en cours...",
+      "alreadyOrdered": "Prescrit",
+      "results": "Résultats",
+      "noResultsYet": "Aucun résultat pour l'instant — prescrivez un examen pour voir ses résultats ici.",
+      "totalPenalty": "Pénalité de coût : {{penalty}}",
+      "flags": {
+        "low": "Bas",
+        "normal": "Normal",
+        "high": "Élevé",
+        "abnormal": "Anormal"
+      },
+      "parameterLabels": {
+        "hemoglobin_g_dl": "Hémoglobine (g/dL)",
+        "wbc_10e9_l": "Leucocytes (×10⁹/L)",
+        "platelets_10e9_l": "Plaquettes (×10⁹/L)",
+        "mcv_fl": "VGM (fL)",
+        "mch_pg": "TCMH (pg)",
+        "rdw_pct": "IDR (%)",
+        "neutrophil_pct": "Neutrophiles (%)",
+        "reticulocyte_pct": "Réticulocytes (%)",
+        "ferritin_ng_ml": "Ferritine (ng/mL)",
+        "crp_mg_l": "CRP (mg/L)",
+        "alt_u_l": "ALAT (U/L)",
+        "ast_u_l": "ASAT (U/L)",
+        "urine_protein_mg_dl": "Protéines urinaires (mg/dL)",
+        "urine_glucose_mg_dl": "Glucose urinaire (mg/dL)"
       }
     }
   },

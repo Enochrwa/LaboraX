@@ -129,14 +129,24 @@ export function CaseIntakePage(): JSX.Element {
                 </Grid>
               </Box>
 
-              <Button
-                variant="contained"
-                onClick={handleNewCase}
-                disabled={isFetching}
-                sx={{ alignSelf: "flex-start" }}
-              >
-                {t("hematology.caseIntake.newCase")}
-              </Button>
+              <Stack direction="row" spacing={2}>
+                <Button
+                  variant="contained"
+                  onClick={handleNewCase}
+                  disabled={isFetching}
+                  sx={{ alignSelf: "flex-start" }}
+                >
+                  {t("hematology.caseIntake.newCase")}
+                </Button>
+                <Button
+                  component={RouterLink}
+                  to={`/hematology/case/${patientCase.id}/tests`}
+                  variant="outlined"
+                  sx={{ alignSelf: "flex-start" }}
+                >
+                  {t("hematology.caseIntake.orderTests")}
+                </Button>
+              </Stack>
             </Stack>
           )}
         </Stack>

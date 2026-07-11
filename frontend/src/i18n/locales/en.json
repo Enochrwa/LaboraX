@@ -44,6 +44,7 @@
       "presentingSymptoms": "Presenting symptoms",
       "vitals": "Vitals",
       "newCase": "Get a new case",
+      "orderTests": "Order tests",
       "age": "{{age}} years old",
       "difficulty": {
         "novice": "Novice",
@@ -59,6 +60,41 @@
         "heart_rate_bpm": "Heart rate (bpm)",
         "respiratory_rate_bpm": "Respiratory rate (bpm)",
         "blood_pressure_systolic": "Systolic BP (mmHg)"
+      }
+    },
+    "testOrdering": {
+      "title": "Order tests",
+      "subtitle": "Choose the tests you'd order for this patient.",
+      "loadError": "We couldn't load the test catalog or results. Please try again.",
+      "orderError": "We couldn't submit that order. Please try again.",
+      "selectTests": "Available tests",
+      "orderSelected": "Order selected tests",
+      "ordering": "Ordering...",
+      "alreadyOrdered": "Ordered",
+      "results": "Results",
+      "noResultsYet": "No results yet — order a test to see its results here.",
+      "totalPenalty": "Cost penalty: {{penalty}}",
+      "flags": {
+        "low": "Low",
+        "normal": "Normal",
+        "high": "High",
+        "abnormal": "Abnormal"
+      },
+      "parameterLabels": {
+        "hemoglobin_g_dl": "Hemoglobin (g/dL)",
+        "wbc_10e9_l": "WBC (×10⁹/L)",
+        "platelets_10e9_l": "Platelets (×10⁹/L)",
+        "mcv_fl": "MCV (fL)",
+        "mch_pg": "MCH (pg)",
+        "rdw_pct": "RDW (%)",
+        "neutrophil_pct": "Neutrophils (%)",
+        "reticulocyte_pct": "Reticulocytes (%)",
+        "ferritin_ng_ml": "Ferritin (ng/mL)",
+        "crp_mg_l": "CRP (mg/L)",
+        "alt_u_l": "ALT (U/L)",
+        "ast_u_l": "AST (U/L)",
+        "urine_protein_mg_dl": "Urine protein (mg/dL)",
+        "urine_glucose_mg_dl": "Urine glucose (mg/dL)"
       }
     }
   },
