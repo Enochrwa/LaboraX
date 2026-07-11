@@ -3,6 +3,9 @@ and `Base.metadata` see the full schema."""
 
 from app.db.models.case import Case, CaseGeneratedBy, DifficultyLevel, PatientSex
 from app.db.models.disease import Disease, DiseaseCategory
+from app.db.models.result import Result
+from app.db.models.test_catalog import TestCatalog
+from app.db.models.test_order import TestOrder
 from app.db.models.user import User, UserRole
 
 __all__ = [
@@ -12,6 +15,9 @@ __all__ = [
     "Disease",
     "DiseaseCategory",
     "PatientSex",
+    "Result",
+    "TestCatalog",
+    "TestOrder",
     "User",
     "UserRole",
 ]

@@ -44,6 +44,7 @@
       "presentingSymptoms": "Ibimenyetso agaragaza",
       "vitals": "Ibipimo by'ubuzima",
       "newCase": "Saba undi murwayi",
+      "orderTests": "Saba ibizamini",
       "age": "Imyaka {{age}}",
       "difficulty": {
         "novice": "Umutangira",
@@ -59,6 +60,41 @@
         "heart_rate_bpm": "Uko umutima utera (bpm)",
         "respiratory_rate_bpm": "Uko guhumeka (bpm)",
         "blood_pressure_systolic": "Umuvuduko w'amaraso (mmHg)"
+      }
+    },
+    "testOrdering": {
+      "title": "Saba ibizamini",
+      "subtitle": "Hitamo ibizamini wifuza gusaba kuri uyu murwayi.",
+      "loadError": "Ntibyakunze gutegura urutonde rw'ibizamini cyangwa ibisubizo. Ongera ugerageze.",
+      "orderError": "Ntibyakunze kohereza iyi saba. Ongera ugerageze.",
+      "selectTests": "Ibizamini bihari",
+      "orderSelected": "Saba ibizamini watoranyije",
+      "ordering": "Birimo koherezwa...",
+      "alreadyOrdered": "Byasabwe",
+      "results": "Ibisubizo",
+      "noResultsYet": "Nta bisubizo urabona — saba ikizamini kugira ngo ubone ibisubizo hano.",
+      "totalPenalty": "Igihombo cy'ikiguzi: {{penalty}}",
+      "flags": {
+        "low": "Byo hasi",
+        "normal": "Bisanzwe",
+        "high": "Byo hejuru",
+        "abnormal": "Bidasanzwe"
+      },
+      "parameterLabels": {
+        "hemoglobin_g_dl": "Hemoglobine (g/dL)",
+        "wbc_10e9_l": "Uturemangingo tw'amaraso tuzura (×10⁹/L)",
+        "platelets_10e9_l": "Platelets (×10⁹/L)",
+        "mcv_fl": "MCV (fL)",
+        "mch_pg": "MCH (pg)",
+        "rdw_pct": "RDW (%)",
+        "neutrophil_pct": "Neutrophils (%)",
+        "reticulocyte_pct": "Reticulocytes (%)",
+        "ferritin_ng_ml": "Ferritine (ng/mL)",
+        "crp_mg_l": "CRP (mg/L)",
+        "alt_u_l": "ALT (U/L)",
+        "ast_u_l": "AST (U/L)",
+        "urine_protein_mg_dl": "Proteine mu nkari (mg/dL)",
+        "urine_glucose_mg_dl": "Isukari mu nkari (mg/dL)"
       }
     }
   },
