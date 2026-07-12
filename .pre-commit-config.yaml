@@ -9,15 +9,15 @@
 # so this is a fast local feedback loop, not the source of truth.
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.6
+    rev: v0.15.21
     hooks:
       - id: ruff
         name: ruff (lint)
         args: [--fix]
-        files: ^backend/
+        files: ^(backend|scripts)/
       - id: ruff-format
         name: ruff (format)
-        files: ^backend/
+        files: ^(backend|scripts)/
 
   - repo: local
     hooks:
@@ -26,6 +26,13 @@ repos:
         entry: bash -c 'cd backend && mypy app'
         language: system
         files: ^backend/app/
+        pass_filenames: false
+
+      - id: mypy-scripts
+        name: mypy (scripts/)
+        entry: bash -c 'cd backend && mypy ../scripts --ignore-missing-imports'
+        language: system
+        files: ^scripts/
         pass_filenames: false
 
   - repo: https://github.com/pre-commit/pre-commit-hooks

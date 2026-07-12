@@ -22,7 +22,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 
 from app.core.deps import CurrentUser, DbSession, require_roles
-from app.db.models.case import Case
+from app.db.models.case import Case, CaseGeneratedBy
 from app.db.models.interpretation_result import InterpretationResult
 from app.db.models.user import User, UserRole
 from app.schemas.interpretation import InterpretationRequest, InterpretationResultRead
@@ -38,10 +38,19 @@ _mastery_tracker = MasteryTracker()
 
 
 async def _load_owned_case(db: DbSession, current_user: User, case_id: uuid.UUID) -> Case:
+    """Load `case_id`, enforcing who may submit an interpretation for it.
+
+    A self-practice case (`requested_by_id` set) is only attemptable by the
+    student who generated it. A `LECTURER`-generated case (Sprint 6:
+    `app/api/v1/routes/lecturer.py`) has no single owner — it was assigned
+    to a whole group — so it's open to any authenticated student, the same
+    way a printed exam paper isn't "owned" by one student.
+    """
     case = await db.get(Case, case_id)
     if case is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Case not found.")
-    if case.requested_by_id != current_user.id:
+    is_open_assigned_case = case.generated_by == CaseGeneratedBy.LECTURER
+    if not is_open_assigned_case and case.requested_by_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You do not have permission to submit an interpretation for this case.",
@@ -115,15 +124,20 @@ async def get_interpretations_for_case(
     if case is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Case not found.")
 
-    if current_user.role == UserRole.STUDENT and case.requested_by_id != current_user.id:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="You do not have permission to view interpretations for this case.",
-        )
+    query = select(InterpretationResult).where(InterpretationResult.case_id == case_id)
 
-    result = await db.execute(
-        select(InterpretationResult)
-        .where(InterpretationResult.case_id == case_id)
-        .order_by(InterpretationResult.evaluated_at.desc())
-    )
+    if current_user.role == UserRole.STUDENT:
+        is_open_assigned_case = case.generated_by == CaseGeneratedBy.LECTURER
+        if is_open_assigned_case:
+            # A shared assigned case has no single owner, but a student must
+            # still never see a peer's submitted text/score — scope to their
+            # own attempts only rather than 403ing outright.
+            query = query.where(InterpretationResult.student_id == current_user.id)
+        elif case.requested_by_id != current_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You do not have permission to view interpretations for this case.",
+            )
+
+    result = await db.execute(query.order_by(InterpretationResult.evaluated_at.desc()))
     return list(result.scalars().all())

@@ -33,7 +33,8 @@
     "subtitle": "Votre laboratoire virtuel est prêt.",
     "logout": "Se déconnecter",
     "startHematologyCase": "Démarrer un cas d'hématologie",
-    "viewProgress": "Ma progression"
+    "viewProgress": "Ma progression",
+    "openLecturerDashboard": "Ouvrir le tableau de bord enseignant"
   },
   "hematology": {
     "caseIntake": {
@@ -144,6 +145,47 @@
       "iron_studies": "Bilan martial",
       "parasitology": "Parasitologie",
       "general_interpretation": "Interpretation generale"
+    }
+  },
+  "lecturerDashboard": {
+    "title": "Tableau de bord enseignant",
+    "subtitle": "Attribuez des cas à un groupe et suivez la performance de la cohorte.",
+    "assignForm": {
+      "title": "Attribuer un cas à un groupe",
+      "disease": "Maladie",
+      "difficulty": "Difficulté",
+      "group": "Groupe",
+      "groupPlaceholder": "ex. BLS-Y3-A",
+      "seed": "Graine (optionnel)",
+      "seedHelp": "Laissez vide pour un cas aléatoire ; définissez une graine pour que chaque étudiant reçoive un cas identique.",
+      "dueAt": "Date limite (optionnel)",
+      "submit": "Attribuer le cas",
+      "submitting": "Attribution en cours...",
+      "success": "Cas attribué au groupe.",
+      "error": "Impossible d'attribuer ce cas. Veuillez réessayer."
+    },
+    "groups": {
+      "title": "Mes groupes",
+      "loadError": "Impossible de charger vos attributions. Veuillez réessayer.",
+      "empty": "Vous n'avez encore attribué aucun cas.",
+      "viewAnalytics": "Voir les statistiques",
+      "assignmentCount_one": "{{count}} attribution",
+      "assignmentCount_other": "{{count}} attributions"
+    },
+    "analytics": {
+      "title": "Performance de la cohorte — {{group}}",
+      "loadError": "Impossible de charger les statistiques de ce groupe.",
+      "distinctStudents": "Étudiants",
+      "totalAttempts": "Interprétations soumises",
+      "overallAverage": "Score moyen global",
+      "byCase": "Par cas",
+      "noAttemptsYet": "Aucune soumission pour le moment.",
+      "caseSummary": "{{attempts}} tentatives · {{students}} étudiants · moy. {{average}}",
+      "byTopic": "Par sujet",
+      "commonlyMissed": "Résultats fréquemment manqués",
+      "noneMissed": "Aucun résultat manqué pour le moment.",
+      "missCount_one": "Manqué {{count}} fois",
+      "missCount_other": "Manqué {{count}} fois"
     }
   }
 }

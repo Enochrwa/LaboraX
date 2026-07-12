@@ -114,7 +114,7 @@ This mirrors the same reasoning already in `HLD.md` §7 (why the backend stayed 
 > full en/fr/rw translations. 143 backend tests / 24 frontend tests, all green; ruff, mypy
 > (strict), ESLint, Prettier, tsc all clean; 97%+ backend coverage.
 
-### Sprint 6 — Lecturer Dashboard & MVP Hardening
+### Sprint 6 — Lecturer Dashboard & MVP Hardening ✅
 - `case_assignments` table, lecturer assignment endpoints
 - Cohort analytics endpoint (`GET /lecturer/analytics/{group_id}`)
 - Frontend: lecturer dashboard (assign cases, view class performance)
@@ -122,6 +122,54 @@ This mirrors the same reasoning already in `HLD.md` §7 (why the backend stayed 
 - Deploy to Render/Fly.io + Vercel, free-tier infra wiring finalized
 
 **Deliverable:** MVP complete — Hematology module fully usable by students and lecturers, deployed.
+
+> **Status:** implemented on `feature/sprint-six-implementation`. `case_assignments` table +
+> Alembic migration (`b7d4e2f918a3`, FKs to `users`/`cases`) exactly matches `docs/LLD.md` §3's
+> `(id, lecturer_id, case_id, assigned_to_group, due_at, created_at)`; `assigned_to_group` stays
+> a plain string label rather than a new groups/enrollment table, since neither the LLD's data
+> model nor this sprint defines one. **Key design call:** before this sprint, `Case.requested_by_id`
+> made a case attemptable only by the one student who generated it — impossible for a case a
+> whole group needs to attempt. Rather than build a class-roster feature the LLD doesn't
+> describe, Sprint 6 activates the `CaseGeneratedBy.LECTURER` enum value that has existed on
+> `Case` since Sprint 2 but was never set by any route: a lecturer-generated case has no single
+> owner and is open to any student, the same way a printed exam paper isn't "owned" by whoever
+> picks it up first (`app/api/v1/routes/lecturer.py`'s module docstring has the full reasoning).
+> `interpretations.py`'s ownership check is extended accordingly, and its history endpoint now
+> scopes a student to their own submissions on a shared case rather than ever leaking a peer's.
+> `POST /api/v1/lecturer/cases/assign` either generates a fresh `LECTURER`-owned case (optionally
+> with a deterministic `seed` so every student in the group gets an identical one, per the LLD's
+> `CaseGenerator.generate` docstring) or assigns an existing one — which must already be
+> `LECTURER`-owned, so a student's private practice case can never be repurposed into a shared
+> assignment. `GET /lecturer/analytics/{group_id}` scopes strictly to the requesting lecturer's
+> own assignments for that group label (any lecturer could otherwise read any other lecturer's
+> cohort by reusing a group name) and reuses Sprint 5's `student_topic_mastery` rows for
+> per-topic cohort performance rather than recomputing scores from raw finding JSON — the same
+> "don't recompute a running signal that already exists" reasoning `scoring.py` already applies.
+> "Commonly-missed findings across a cohort" (`docs/PRD.md` §5) is tallied directly from
+> `missing_findings` JSON, the one signal only available there. Two small additions beyond the
+> LLD's API table, both needed to make the dashboard usable rather than a stub: `GET
+> /lecturer/assignments` (list the requesting lecturer's own groups, so the dashboard has
+> somewhere to start before any `group_id` is known) and `GET /api/v1/diseases` (a disease-name
+> picker source for the assign-case form). Frontend: `/lecturer` route (role-gated via
+> `ProtectedRoute`'s new `allowedRoles` prop, redirecting students home) with an assign-case form,
+> a groups list, and a cohort-analytics panel (summary stats, per-case and per-topic breakdowns,
+> commonly-missed findings), linked from the dashboard for lecturer/admin accounts, with full
+> en/fr/rw translations. **Load smoke test:** `scripts/load_smoke_test.py` — deliberately not a
+> full Locust/k6 harness (the free-tier infra this project targets can't meaningfully absorb
+> sustained load testing, and ~155 functional tests already cover correctness); instead it runs
+> concurrent student and lecturer journeys against a *real running* server (not the in-process
+> ASGI transport `tests/conftest.py` uses) checking for errors and runaway latency, wired into a
+> new CI job (`.github/workflows/ci.yml`'s `smoke` job: boots Postgres + the API, seeds, runs the
+> script). **Deploy:** actually pushing to Render/Fly.io/Vercel needs hosting accounts and secrets
+> that don't exist yet, so `.github/workflows/deploy.yml` remains the documented no-op placeholder
+> it already was — what *is* finalized this sprint is the config-as-code those deploys will
+> consume: `infra/render.yaml` and `infra/fly.toml` (pick one; both wire `DATABASE_URL`/
+> `REDIS_URL`/`JWT_SECRET_KEY`/`ALLOWED_ORIGINS` as dashboard-set secrets, matching
+> `app/core/config.py`'s actual field names, against Neon/Supabase Postgres + Upstash Redis per
+> `docs/HLD.md`'s deployment table) and `frontend/vercel.json` (SPA rewrite + Vite build, reading
+> the existing `VITE_API_BASE_URL`). 155 backend tests / 33 frontend tests, all green; ruff, mypy
+> (strict — now also covering `scripts/`), ESLint, Prettier, tsc all clean; 97.8% backend coverage;
+> production frontend build succeeds.
 
 ---
 

@@ -33,7 +33,8 @@
     "subtitle": "Laboratwari yawe ya mudasobwa iteguwe.",
     "logout": "Sohoka",
     "startHematologyCase": "Tangira ikizamini cy'amaraso",
-    "viewProgress": "Aho ngeze"
+    "viewProgress": "Aho ngeze",
+    "openLecturerDashboard": "Fungura ikibaho cy'umwarimu"
   },
   "hematology": {
     "caseIntake": {
@@ -144,6 +145,47 @@
       "iron_studies": "Isuzuma rya feri",
       "parasitology": "Ubuvuzi bw'udukoko",
       "general_interpretation": "Isesengura rusange"
+    }
+  },
+  "lecturerDashboard": {
+    "title": "Ikibaho cy'umwarimu",
+    "subtitle": "Ha itsinda ikizamini kandi ukurikirane imikorere yaryo.",
+    "assignForm": {
+      "title": "Ha itsinda ikizamini",
+      "disease": "Indwara",
+      "difficulty": "Urwego rw'ubukana",
+      "group": "Itsinda",
+      "groupPlaceholder": "urugero: BLS-Y3-A",
+      "seed": "Nomero y'umuzi (si ngombwa)",
+      "seedHelp": "Reka busa niba ushaka ikizamini gitunguranye; shyiramo nomero kugira ngo buri munyeshuri ahabwe ikizamini kimwe.",
+      "dueAt": "Itariki ntarengwa (si ngombwa)",
+      "submit": "Ha itsinda ikizamini",
+      "submitting": "Birimo koherezwa...",
+      "success": "Ikizamini cyahawe itsinda.",
+      "error": "Ntibyashobotse guha itsinda iki kizamini. Ongera ugerageze."
+    },
+    "groups": {
+      "title": "Amatsinda yanjye",
+      "loadError": "Ntibyashobotse gutangaza ibyo watanze. Ongera ugerageze.",
+      "empty": "Nta kizamini wari watanga ku itsinda.",
+      "viewAnalytics": "Reba imibare",
+      "assignmentCount_one": "Icyifuzo {{count}}",
+      "assignmentCount_other": "Ibyifuzo {{count}}"
+    },
+    "analytics": {
+      "title": "Imikorere y'itsinda — {{group}}",
+      "loadError": "Ntibyashobotse gutangaza imibare y'iri tsinda.",
+      "distinctStudents": "Abanyeshuri",
+      "totalAttempts": "Ibisubizo byatanzwe",
+      "overallAverage": "Amanota rusange",
+      "byCase": "Ku kizamini",
+      "noAttemptsYet": "Nta gisubizo kirimo.",
+      "caseSummary": "{{attempts}} zagerageje · {{students}} banyeshuri · impuzandengo {{average}}",
+      "byTopic": "Ku ngingo",
+      "commonlyMissed": "Ibisubizo bikunze kubura",
+      "noneMissed": "Nta gisubizo kibuze.",
+      "missCount_one": "Byabuze inshuro {{count}}",
+      "missCount_other": "Byabuze inshuro {{count}}"
     }
   }
 }
