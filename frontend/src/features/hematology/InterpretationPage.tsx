@@ -65,6 +65,11 @@ function InterpretationResultCard({ result }: { result: InterpretationResult }):
                   sx={{ display: "list-item", pl: 2 }}
                 >
                   <Typography variant="body2">{finding.expected_finding}</Typography>
+                  {finding.explanation && (
+                    <Typography variant="caption" color="text.secondary" component="p">
+                      {finding.explanation}
+                    </Typography>
+                  )}
                 </ListItem>
               ))}
             </List>
@@ -84,6 +89,11 @@ function InterpretationResultCard({ result }: { result: InterpretationResult }):
                   sx={{ display: "list-item", pl: 2 }}
                 >
                   <Typography variant="body2">{finding.expected_finding}</Typography>
+                  {finding.explanation && (
+                    <Typography variant="caption" color="text.secondary" component="p">
+                      {finding.explanation}
+                    </Typography>
+                  )}
                 </ListItem>
               ))}
             </List>
@@ -159,6 +169,16 @@ export function InterpretationPage(): JSX.Element {
               {t("hematology.caseIntake.backToDashboard")}
             </Button>
           </Stack>
+
+          <Button
+            component={RouterLink}
+            to="/progress"
+            variant="outlined"
+            size="small"
+            sx={{ alignSelf: "flex-start" }}
+          >
+            {t("scoring.viewProgress")}
+          </Button>
 
           {historyLoading && (
             <Box display="flex" justifyContent="center" py={6}>

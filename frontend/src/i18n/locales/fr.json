@@ -32,7 +32,8 @@
     "welcome": "Bon retour, {{name}}",
     "subtitle": "Votre laboratoire virtuel est prêt.",
     "logout": "Se déconnecter",
-    "startHematologyCase": "Démarrer un cas d'hématologie"
+    "startHematologyCase": "Démarrer un cas d'hématologie",
+    "viewProgress": "Ma progression"
   },
   "hematology": {
     "caseIntake": {
@@ -117,5 +118,32 @@
   },
   "common": {
     "loading": "Chargement..."
+  },
+  "scoring": {
+    "title": "Ma progression",
+    "subtitle": "Votre maitrise par sujet, construite a partir de chaque cas interprete.",
+    "loadError": "Impossible de charger votre progression. Veuillez reessayer.",
+    "overallMastery": "Maitrise globale",
+    "totalAttempts": "Interpretations soumises",
+    "byTopic": "Par sujet",
+    "noTopicsYet": "Soumettez une interpretation pour commencer a construire votre maitrise par sujet.",
+    "recentAttempts": "Tentatives recentes",
+    "noAttemptsYet": "Aucune tentative pour le moment.",
+    "attemptsCount_one": "{{count}} tentative",
+    "attemptsCount_other": "{{count}} tentatives",
+    "masteryValue": "{{score}}%",
+    "attemptScore": "Score : {{score}} / 100",
+    "viewProgress": "Voir ma progression",
+    "topics": {
+      "red_cell_indices": "Indices erythrocytaires",
+      "red_cell_morphology": "Morphologie des globules rouges",
+      "marrow_response": "Reponse medullaire",
+      "platelet_count": "Numeration plaquettaire",
+      "white_cell_response": "Reponse des globules blancs",
+      "inflammatory_markers": "Marqueurs inflammatoires",
+      "iron_studies": "Bilan martial",
+      "parasitology": "Parasitologie",
+      "general_interpretation": "Interpretation generale"
+    }
   }
 }

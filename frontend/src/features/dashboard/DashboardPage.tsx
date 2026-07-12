@@ -38,6 +38,16 @@ export function DashboardPage(): JSX.Element {
               {t("dashboard.startHematologyCase")}
             </Button>
           )}
+          {(!user || user.role === "student") && (
+            <Button
+              component={RouterLink}
+              to="/progress"
+              variant="outlined"
+              sx={{ alignSelf: "flex-start" }}
+            >
+              {t("dashboard.viewProgress")}
+            </Button>
+          )}
           <Button
             variant="outlined"
             onClick={() => dispatch(logout())}

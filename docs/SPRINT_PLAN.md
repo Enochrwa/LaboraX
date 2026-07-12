@@ -82,13 +82,37 @@ This mirrors the same reasoning already in `HLD.md` §7 (why the backend stayed 
 > frontend tests, all green; ruff, mypy (strict), ESLint, Prettier, tsc all clean; 97%+ backend
 > coverage, 96%+ frontend coverage on `InterpretationPage`.
 
-### Sprint 5 — AI Tutor Feedback & Scoring
+### Sprint 5 — AI Tutor Feedback & Scoring ✅
 - Domain rule-based tutor explanation templates (why a finding matters, tied to disease template)
 - `student_topic_mastery` table + update logic
 - `GET /api/v1/scoring/me` endpoint
 - Frontend: tutor feedback panel, personal progress view
 
 **Deliverable:** students see *why* answers are right/wrong and track topic mastery over time.
+
+> **Status:** implemented on `feature/sprint-five-implementation`. `app/services/tutor/
+> explanations.py` maps the same canonical parameter/polarity vocabulary
+> `AnswerEvaluator`/`preprocessing.py` already extracts to a coarser learning `topic` (e.g.
+> `red_cell_indices`, `parasitology`) plus a "why this matters" explanation, reusing that
+> extraction rather than a second NLP pass — every `FindingMatchResult` and
+> `IncorrectStatementResult` now carries both, and the tutor feedback summary surfaces the
+> explanation for the most important gap. `AnswerEvaluator.evaluate()` also rolls findings up
+> into a per-topic `TopicScore` breakdown. `student_topic_mastery` table + Alembic migration
+> (`a1c3f6b2d9e4`, one row per `(student, topic)`); `MasteryTracker`
+> (`app/services/mastery/tracker.py`) blends each submission's `TopicScore`s into the running
+> mastery value via an exponential moving average (alpha=0.35), called synchronously right after
+> `POST /api/v1/interpretations` persists its result. **Deviates from the LLD's "async, via ARQ
+> task if computation is non-trivial" sketch:** the computation is a handful of dict lookups plus
+> one upsert-shaped query per touched topic — not non-trivial — so, matching the same reasoning
+> already applied to `AnswerEvaluator` in Sprint 4, this runs in-request rather than standing up
+> the ARQ worker/Redis queue infra a full async pipeline would need; `app/workers/` remains an
+> empty scaffold this can move onto later without changing either service's public interface.
+> `GET /api/v1/scoring/me` (student-only) returns topic mastery + a weighted overall mastery
+> score + recent submission history. Frontend: `InterpretationResultCard` now shows each
+> finding's explanation inline; new `ScoringPage` (`/progress`, linked from the dashboard and the
+> interpretation page) shows overall mastery, a progress bar per topic, and recent attempts, with
+> full en/fr/rw translations. 143 backend tests / 24 frontend tests, all green; ruff, mypy
+> (strict), ESLint, Prettier, tsc all clean; 97%+ backend coverage.
 
 ### Sprint 6 — Lecturer Dashboard & MVP Hardening
 - `case_assignments` table, lecturer assignment endpoints

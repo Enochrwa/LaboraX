@@ -184,3 +184,83 @@ class TestAnswerEvaluatorBehavior:
         for text in ["", "   ", "Hemoglobin is decreased.", "Irrelevant text entirely."]:
             result = evaluator.evaluate(disease=malaria, student_text=text)
             assert result.tutor_feedback
+
+
+class TestSprint5TutorExplanationsAndTopics:
+    """`docs/SPRINT_PLAN.md` Sprint 5: tutor explanation templates + topic scoring."""
+
+    def test_confirmed_findings_carry_topic_and_explanation(
+        self, evaluator: AnswerEvaluator, iron_deficiency_anemia: Disease
+    ) -> None:
+        text = "Hemoglobin is decreased consistent with microcytic hypochromic anemia."
+        result = evaluator.evaluate(disease=iron_deficiency_anemia, student_text=text)
+
+        confirmed = next(
+            f
+            for f in result.confirmed_findings
+            if f.expected_finding.startswith("Hemoglobin is decreased")
+        )
+        assert confirmed.topic == "red_cell_indices"
+        assert confirmed.explanation
+        assert "oxygen" in confirmed.explanation.lower()
+
+    def test_missing_findings_carry_topic_and_explanation(
+        self, evaluator: AnswerEvaluator, malaria: Disease
+    ) -> None:
+        result = evaluator.evaluate(disease=malaria, student_text="The weather is nice today.")
+        assert result.missing_findings
+        for finding in result.missing_findings:
+            assert finding.topic
+            assert finding.explanation
+
+    def test_incorrect_statement_carries_topic(
+        self, evaluator: AnswerEvaluator, malaria: Disease
+    ) -> None:
+        result = evaluator.evaluate(disease=malaria, student_text="Platelets are increased.")
+        assert result.incorrect_findings
+        assert result.incorrect_findings[0].topic == "platelet_count"
+
+    def test_topic_scores_cover_every_topic_touched_by_expected_findings(
+        self, evaluator: AnswerEvaluator, malaria: Disease
+    ) -> None:
+        text = (
+            "The hemoglobin is decreased, consistent with a hemolytic anemia. "
+            "Platelets are low, showing thrombocytopenia. "
+            "The blood film shows ring-form trophozoites. "
+            "White cell count is roughly normal. "
+            "Reticulocyte count is elevated due to compensatory marrow response."
+        )
+        result = evaluator.evaluate(disease=malaria, student_text=text)
+
+        topics = {ts.topic for ts in result.topic_scores}
+        assert topics == {
+            "red_cell_indices",
+            "platelet_count",
+            "parasitology",
+            "white_cell_response",
+            "marrow_response",
+        }
+        for topic_score in result.topic_scores:
+            assert 0.0 <= topic_score.score <= 100.0
+            assert topic_score.finding_count >= 1
+
+    def test_topic_score_penalized_by_contradictory_statement_about_that_topic(
+        self, evaluator: AnswerEvaluator, malaria: Disease
+    ) -> None:
+        result = evaluator.evaluate(disease=malaria, student_text="Platelets are increased.")
+        platelet_topic = next(ts for ts in result.topic_scores if ts.topic == "platelet_count")
+        # Missing (0 credit) minus the topic-level incorrect penalty, floored at 0.
+        assert platelet_topic.score == 0.0
+
+    def test_empty_submission_still_produces_topic_scores(
+        self, evaluator: AnswerEvaluator, malaria: Disease
+    ) -> None:
+        result = evaluator.evaluate(disease=malaria, student_text="")
+        assert result.topic_scores
+        assert all(ts.score == 0.0 for ts in result.topic_scores)
+
+    def test_tutor_feedback_surfaces_why_the_top_missing_finding_matters(
+        self, evaluator: AnswerEvaluator, malaria: Disease
+    ) -> None:
+        result = evaluator.evaluate(disease=malaria, student_text="Irrelevant text entirely.")
+        assert "Why it matters:" in result.tutor_feedback
