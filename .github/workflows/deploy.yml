@@ -14,5 +14,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Deploy step (to be configured)
         run: |
-          echo "Wire this job to Render/Fly.io (backend) and Vercel (frontend) deploy hooks."
-          echo "Intentionally a no-op placeholder until hosting is provisioned - see docs/HLD.md."
+          echo "Backend config-as-code is ready: infra/render.yaml (Render) or infra/fly.toml (Fly.io)."
+          echo "Frontend config-as-code is ready: frontend/vercel.json."
+          echo "Wire this job to whichever deploy hook/CLI once hosting accounts exist - see docs/HLD.md."
+          echo "Intentionally a no-op placeholder until hosting is provisioned; no deploy credentials exist yet."

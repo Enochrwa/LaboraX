@@ -33,7 +33,8 @@
     "subtitle": "Your virtual laboratory is ready.",
     "logout": "Log out",
     "startHematologyCase": "Start a hematology case",
-    "viewProgress": "My progress"
+    "viewProgress": "My progress",
+    "openLecturerDashboard": "Open lecturer dashboard"
   },
   "hematology": {
     "caseIntake": {
@@ -144,6 +145,47 @@
       "iron_studies": "Iron studies",
       "parasitology": "Parasitology",
       "general_interpretation": "General interpretation"
+    }
+  },
+  "lecturerDashboard": {
+    "title": "Lecturer dashboard",
+    "subtitle": "Assign cases to a group and track cohort performance.",
+    "assignForm": {
+      "title": "Assign a case to a group",
+      "disease": "Disease",
+      "difficulty": "Difficulty",
+      "group": "Group",
+      "groupPlaceholder": "e.g. BLS-Y3-A",
+      "seed": "Seed (optional)",
+      "seedHelp": "Leave blank for a random case; set a seed so every student gets an identical one.",
+      "dueAt": "Due date (optional)",
+      "submit": "Assign case",
+      "submitting": "Assigning...",
+      "success": "Case assigned to the group.",
+      "error": "We couldn't assign this case. Please try again."
+    },
+    "groups": {
+      "title": "My groups",
+      "loadError": "We couldn't load your assignments. Please try again.",
+      "empty": "You haven't assigned any cases yet.",
+      "viewAnalytics": "View analytics",
+      "assignmentCount_one": "{{count}} assignment",
+      "assignmentCount_other": "{{count}} assignments"
+    },
+    "analytics": {
+      "title": "Cohort performance — {{group}}",
+      "loadError": "We couldn't load analytics for this group.",
+      "distinctStudents": "Students",
+      "totalAttempts": "Interpretations submitted",
+      "overallAverage": "Overall average score",
+      "byCase": "By case",
+      "noAttemptsYet": "No submissions yet.",
+      "caseSummary": "{{attempts}} attempts · {{students}} students · avg {{average}}",
+      "byTopic": "By topic",
+      "commonlyMissed": "Commonly missed findings",
+      "noneMissed": "No missed findings yet.",
+      "missCount_one": "Missed {{count}} time",
+      "missCount_other": "Missed {{count}} times"
     }
   }
 }

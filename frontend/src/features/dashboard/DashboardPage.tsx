@@ -48,6 +48,16 @@ export function DashboardPage(): JSX.Element {
               {t("dashboard.viewProgress")}
             </Button>
           )}
+          {user && (user.role === "lecturer" || user.role === "admin") && (
+            <Button
+              component={RouterLink}
+              to="/lecturer"
+              variant="contained"
+              sx={{ alignSelf: "flex-start" }}
+            >
+              {t("dashboard.openLecturerDashboard")}
+            </Button>
+          )}
           <Button
             variant="outlined"
             onClick={() => dispatch(logout())}

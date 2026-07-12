@@ -9,5 +9,9 @@
   "backend/**/*.py": [
     "bash -c 'cd backend && ruff check --fix'",
     "bash -c 'cd backend && ruff format'"
+  ],
+  "scripts/**/*.py": [
+    "bash -c 'cd backend && ruff check --fix ../scripts'",
+    "bash -c 'cd backend && ruff format ../scripts'"
   ]
 }

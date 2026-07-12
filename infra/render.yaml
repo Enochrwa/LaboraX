@@ -1,0 +1,37 @@
+# Render Blueprint — deploys the FastAPI backend as a free-tier web service.
+#
+# `docs/HLD.md` §"Deployment": "Backend | Render or Fly.io | Free/low-cost
+# tier, single FastAPI container". This is the Render half of that choice;
+# `infra/fly.toml` is the Fly.io alternative (pick one, not both, per
+# environment). Database (Neon/Supabase Postgres) and cache/queue (Upstash
+# Redis) are external managed free tiers per the same HLD table, so they're
+# wired in as secret env vars here rather than as Render-managed add-ons.
+#
+# One-time setup once hosting accounts exist:
+#   1. Render dashboard -> New -> Blueprint -> point at this repo.
+#   2. Set the `sync: false` env vars below in the Render dashboard (never
+#      commit real secrets to this file).
+#   3. `.github/workflows/deploy.yml` can then be pointed at a Render deploy
+#      hook URL stored in a GitHub Actions secret.
+services:
+  - type: web
+    name: laborax-backend
+    runtime: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    autoDeploy: true
+    branch: main
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        sync: false # Neon/Supabase Postgres connection string (PgBouncer/pooled)
+      - key: REDIS_URL
+        sync: false # Upstash Redis connection string
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false # comma-separated, e.g. https://laborax.vercel.app

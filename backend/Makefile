@@ -1,4 +1,4 @@
-.PHONY: install dev lint format typecheck test cov run migrate seed
+.PHONY: install dev lint format typecheck test cov run migrate seed smoke
 
 install:
 	pip install -r requirements-dev.txt
@@ -29,3 +29,6 @@ migrate:
 
 seed:
 	python -m app.db.seed
+
+smoke:
+	python ../scripts/load_smoke_test.py

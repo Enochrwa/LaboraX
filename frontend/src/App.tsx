@@ -9,6 +9,7 @@ import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { CaseIntakePage } from "@/features/hematology/CaseIntakePage";
 import { InterpretationPage } from "@/features/hematology/InterpretationPage";
 import { TestOrderingPage } from "@/features/hematology/TestOrderingPage";
+import { LecturerDashboardPage } from "@/features/lecturerDashboard/LecturerDashboardPage";
 import { ScoringPage } from "@/features/scoring/ScoringPage";
 
 function AppRoutes(): JSX.Element {
@@ -53,6 +54,14 @@ function AppRoutes(): JSX.Element {
         element={
           <ProtectedRoute>
             <InterpretationPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/lecturer"
+        element={
+          <ProtectedRoute allowedRoles={["lecturer", "admin"]}>
+            <LecturerDashboardPage />
           </ProtectedRoute>
         }
       />
