@@ -7,6 +7,7 @@ import { LoginPage } from "@/features/auth/LoginPage";
 import { RegisterPage } from "@/features/auth/RegisterPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { CaseIntakePage } from "@/features/hematology/CaseIntakePage";
+import { InterpretationPage } from "@/features/hematology/InterpretationPage";
 import { TestOrderingPage } from "@/features/hematology/TestOrderingPage";
 
 function AppRoutes(): JSX.Element {
@@ -35,6 +36,14 @@ function AppRoutes(): JSX.Element {
         element={
           <ProtectedRoute>
             <TestOrderingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/hematology/case/:caseId/interpretation"
+        element={
+          <ProtectedRoute>
+            <InterpretationPage />
           </ProtectedRoute>
         }
       />

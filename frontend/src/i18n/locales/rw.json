@@ -95,7 +95,24 @@
         "ast_u_l": "AST (U/L)",
         "urine_protein_mg_dl": "Proteine mu nkari (mg/dL)",
         "urine_glucose_mg_dl": "Isukari mu nkari (mg/dL)"
-      }
+      },
+      "submitInterpretation": "Ohereza ibisobanuro byawe"
+    },
+    "interpretation": {
+      "title": "Sesengura ibisubizo",
+      "subtitle": "Sobanura icyo ibisubizo byerekana, mu magambo yawe bwite.",
+      "loadError": "Ntibyakunze gushaka amateka y'ibisobanuro byawe. Ongera ugerageze.",
+      "submitError": "Ntibyakunze kohereza icyo gisobanuro. Ongera ugerageze.",
+      "inputLabel": "Igisobanuro cyawe",
+      "inputPlaceholder": "urugero: Hemoglobin yagabanutse, bihuye n'indwara y'amaraso make...",
+      "submit": "Ohereza igisobanuro",
+      "submitting": "Kwerekana amanota...",
+      "scoreLabel": "Amanota",
+      "scoreValue": "{{score}} / 100",
+      "confirmed": "Ibyo wamenye neza",
+      "missing": "Ibyo wibagiwe",
+      "incorrect": "Ibivugwa bidahuye n'iki kibazo",
+      "previousAttempts": "Ibigeragezo byabanjirije ({{count}})"
     }
   },
   "common": {

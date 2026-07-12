@@ -53,7 +53,7 @@ This mirrors the same reasoning already in `HLD.md` §7 (why the backend stayed 
 
 **Deliverable:** full order → result flow for CBC/Blood Film cases.
 
-### Sprint 4 — Answer Evaluation Engine
+### Sprint 4 — Answer Evaluation Engine ✅
 - `interpretation_results` table
 - `AnswerEvaluator` service: spaCy preprocessing + sentence-transformer similarity scoring
 - Golden-case regression test fixtures
@@ -61,6 +61,26 @@ This mirrors the same reasoning already in `HLD.md` §7 (why the backend stayed 
 - Frontend: interpretation text input + score/feedback display
 
 **Deliverable:** student can submit a free-text interpretation and receive an AI-evaluated score.
+
+> **Status:** implemented on `feature/sprint-four-implementation`. `InterpretationResult` model +
+> Alembic migration (`739c748e925d`); `AnswerEvaluator`
+> (`app/services/answer_evaluator/evaluator.py`) segments a submission into candidate
+> finding-statements, matches them against a disease's `expected_findings` via TF-IDF +
+> cosine similarity, and applies a rule-based polarity/parameter check to catch statements that
+> lexically resemble a finding but contradict its direction (e.g. "hemoglobin is normal" vs an
+> expected "hemoglobin is decreased"). **Deviates from the LLD's sentence-transformer sketch:**
+> a downloaded HuggingFace model adds a cold-start/network dependency that conflicts with the
+> free-tier/low-resource principle in `docs/HLD.md` §1/§7 — the same call already made on
+> HandyRwanda. The similarity backend sits behind `_similarity_matrix()` specifically so it can
+> be swapped for a semantic-embedding model later without touching the scoring algorithm.
+> `POST /api/v1/interpretations` (student-only, creates a new attempt each submission) and
+> `GET /api/v1/interpretations/{case_id}` (student/lecturer/admin, ownership-checked) routes
+> added; frontend `InterpretationPage` (free-text box, score chip + progress bar, confirmed/
+> missing/incorrect finding lists, tutor feedback, submission history) linked from the results
+> panel once a case has at least one result. Golden-case regression fixtures cover all three
+> seeded diseases plus empty/irrelevant/contradictory submissions. 113 backend tests / 21
+> frontend tests, all green; ruff, mypy (strict), ESLint, Prettier, tsc all clean; 97%+ backend
+> coverage, 96%+ frontend coverage on `InterpretationPage`.
 
 ### Sprint 5 — AI Tutor Feedback & Scoring
 - Domain rule-based tutor explanation templates (why a finding matters, tied to disease template)

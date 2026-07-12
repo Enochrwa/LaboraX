@@ -232,6 +232,17 @@ export function TestOrderingPage(): JSX.Element {
             {caseResults?.results.map((result) => (
               <ResultCard key={result.id} result={result} />
             ))}
+
+            {caseResults && caseResults.results.length > 0 && (
+              <Button
+                component={RouterLink}
+                to={`/hematology/case/${caseId}/interpretation`}
+                variant="contained"
+                sx={{ alignSelf: "flex-start" }}
+              >
+                {t("hematology.testOrdering.submitInterpretation")}
+              </Button>
+            )}
           </Stack>
         </Stack>
       </Paper>

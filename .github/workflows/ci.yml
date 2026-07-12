@@ -45,6 +45,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
 
+      - name: Alembic migrations apply cleanly
+        env:
+          DATABASE_URL: postgresql+asyncpg://laborax:laborax@localhost:5432/laborax_test
+        run: alembic upgrade head
+
       - name: Ruff lint
         run: ruff check .
 
