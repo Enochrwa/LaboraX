@@ -32,7 +32,8 @@
     "welcome": "Murakaza neza, {{name}}",
     "subtitle": "Laboratwari yawe ya mudasobwa iteguwe.",
     "logout": "Sohoka",
-    "startHematologyCase": "Tangira ikizamini cy'amaraso"
+    "startHematologyCase": "Tangira ikizamini cy'amaraso",
+    "viewProgress": "Aho ngeze"
   },
   "hematology": {
     "caseIntake": {
@@ -117,5 +118,32 @@
   },
   "common": {
     "loading": "Birimo gutegurwa..."
+  },
+  "scoring": {
+    "title": "Aho ngeze",
+    "subtitle": "Uburyo uzi ibisobanuro bitandukanye, hashingiwe ku bibazo wasesenguye byose.",
+    "loadError": "Ntibyakunze gushaka aho ugeze. Ongera ugerageze.",
+    "overallMastery": "Amanota rusange",
+    "totalAttempts": "Ibisobanuro wohereje",
+    "byTopic": "Ku ngingo",
+    "noTopicsYet": "Ohereza igisobanuro kugira ngo utangire kubona aho ugeze kuri buri ngingo.",
+    "recentAttempts": "Ibigeragezo bya vuba",
+    "noAttemptsYet": "Nta kigeragezo kirimo.",
+    "attemptsCount_one": "Igeragezo {{count}}",
+    "attemptsCount_other": "Ibigeragezo {{count}}",
+    "masteryValue": "{{score}}%",
+    "attemptScore": "Amanota: {{score}} / 100",
+    "viewProgress": "Reba aho ngeze",
+    "topics": {
+      "red_cell_indices": "Ibipimo by'utugingo tutukura",
+      "red_cell_morphology": "Imiterere y'utugingo tutukura",
+      "marrow_response": "Igisubizo cy'ubuki bw'amagufa",
+      "platelet_count": "Umubare wa platelet",
+      "white_cell_response": "Igisubizo cy'utugingo tuzuye",
+      "inflammatory_markers": "Ibimenyetso by'ubuvyi",
+      "iron_studies": "Isuzuma rya feri",
+      "parasitology": "Ubuvuzi bw'udukoko",
+      "general_interpretation": "Isesengura rusange"
+    }
   }
 }

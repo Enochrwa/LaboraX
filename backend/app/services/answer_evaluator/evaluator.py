@@ -18,6 +18,12 @@ Implements `docs/LLD.md` §5's algorithm:
 7. Composite score = weighted sum (confirmed=full weight, partial=half
    weight) normalized to 100, minus a small penalty per incorrect statement,
    floored at 0.
+8. Sprint 5: each finding is additionally tagged with a `topic` and a
+   rule-based "why this matters" `explanation` via
+   `app.services.tutor.explanations`, and a per-topic score breakdown
+   (`topic_scores`) is computed so `MasteryTracker` (see
+   `app/services/mastery/tracker.py`) can update `student_topic_mastery`
+   without re-deriving parameters/topics from the raw findings again.
 
 Similarity backend: TF-IDF (character+word n-grams) + cosine similarity via
 scikit-learn, fit fresh on each small evaluation's own statement corpus.
@@ -40,10 +46,17 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from app.db.models.disease import Disease
 from app.services.answer_evaluator import preprocessing
+from app.services.tutor.explanations import DEFAULT_TOPIC, explain_finding, topic_for_parameter
 
 CONFIRMED_THRESHOLD = 0.45
 PARTIAL_THRESHOLD = 0.22
 INCORRECT_PENALTY = 5.0
+
+# Per-topic incorrect-statement penalty, smaller than the overall score's
+# `INCORRECT_PENALTY` since one contradictory statement about a topic
+# shouldn't wipe out that topic's mastery signal the way it dents the
+# overall composite score.
+_TOPIC_INCORRECT_PENALTY = 25.0
 
 
 @dataclass
@@ -51,12 +64,29 @@ class FindingMatchResult:
     expected_finding: str
     matched_statement: str | None
     similarity: float
+    topic: str = DEFAULT_TOPIC
+    explanation: str = ""
 
 
 @dataclass
 class IncorrectStatementResult:
     statement: str
     reason: str
+    topic: str = DEFAULT_TOPIC
+
+
+@dataclass
+class TopicScore:
+    """This submission's performance on one learning topic (0-100 scale).
+
+    Consumed by `MasteryTracker.update_from_evaluation` to blend into the
+    student's running `student_topic_mastery` row for `topic` — see
+    `app/services/mastery/tracker.py`.
+    """
+
+    topic: str
+    score: float
+    finding_count: int
 
 
 @dataclass
@@ -66,6 +96,7 @@ class EvaluationResult:
     missing_findings: list[FindingMatchResult] = field(default_factory=list)
     incorrect_findings: list[IncorrectStatementResult] = field(default_factory=list)
     tutor_feedback: str = ""
+    topic_scores: list[TopicScore] = field(default_factory=list)
 
 
 def _similarity_matrix(candidates: list[str], expected: list[str]) -> npt.NDArray[np.float64]:
@@ -82,6 +113,77 @@ def _similarity_matrix(candidates: list[str], expected: list[str]) -> npt.NDArra
     expected_vectors = matrix[len(candidates) :]
     similarity: npt.NDArray[np.float64] = cosine_similarity(expected_vectors, candidate_vectors)
     return similarity
+
+
+def _finding_match(
+    *,
+    expected_finding: str,
+    matched_statement: str | None,
+    similarity: float,
+    normalized_finding: str | None = None,
+) -> FindingMatchResult:
+    """Build a `FindingMatchResult`, attaching its Sprint 5 topic + explanation.
+
+    `normalized_finding` lets callers pass an already-normalized string
+    (the hot path in `evaluate()` already computed it); when omitted this
+    normalizes `expected_finding` itself, which keeps the empty-submission
+    fallback path in `evaluate()` — which never runs `preprocessing.normalize`
+    over the expected findings — correct too.
+    """
+    normalized = normalized_finding or preprocessing.normalize(expected_finding)
+    explanation = explain_finding(normalized)
+    if explanation is None:
+        return FindingMatchResult(
+            expected_finding=expected_finding,
+            matched_statement=matched_statement,
+            similarity=similarity,
+        )
+    return FindingMatchResult(
+        expected_finding=expected_finding,
+        matched_statement=matched_statement,
+        similarity=similarity,
+        topic=explanation.topic,
+        explanation=explanation.explanation,
+    )
+
+
+def _aggregate_topic_scores(
+    *,
+    confirmed: list[FindingMatchResult],
+    missing: list[FindingMatchResult],
+    incorrect: list[IncorrectStatementResult],
+) -> list[TopicScore]:
+    """Roll confirmed/missing/incorrect findings up into a per-topic 0-100 score.
+
+    Mirrors `evaluate()`'s overall composite-score weighting (confirmed=full
+    credit, `PARTIAL_THRESHOLD`-only matches=half credit) but per topic, plus
+    a smaller `_TOPIC_INCORRECT_PENALTY` per contradictory statement about
+    that specific topic. This is what `MasteryTracker` blends into
+    `student_topic_mastery` — see `app/services/mastery/tracker.py`.
+    """
+    weight_by_topic: dict[str, float] = {}
+    count_by_topic: dict[str, int] = {}
+
+    for f in confirmed:
+        weight_by_topic[f.topic] = weight_by_topic.get(f.topic, 0.0) + (
+            1.0 if f.similarity >= CONFIRMED_THRESHOLD else 0.5
+        )
+        count_by_topic[f.topic] = count_by_topic.get(f.topic, 0) + 1
+    for f in missing:
+        count_by_topic[f.topic] = count_by_topic.get(f.topic, 0) + 1
+
+    penalty_by_topic: dict[str, float] = {}
+    for i in incorrect:
+        penalty_by_topic[i.topic] = penalty_by_topic.get(i.topic, 0.0) + _TOPIC_INCORRECT_PENALTY
+
+    topics = sorted(count_by_topic.keys())
+    scores: list[TopicScore] = []
+    for topic in topics:
+        total = count_by_topic[topic]
+        raw = (weight_by_topic.get(topic, 0.0) / total) * 100 if total else 0.0
+        score = max(0.0, min(100.0, raw - penalty_by_topic.get(topic, 0.0)))
+        scores.append(TopicScore(topic=topic, score=round(score, 1), finding_count=total))
+    return scores
 
 
 class AnswerEvaluator:
@@ -106,12 +208,16 @@ class AnswerEvaluator:
             )
 
         if not raw_candidates:
+            empty_missing = [
+                _finding_match(expected_finding=f, matched_statement=None, similarity=0.0)
+                for f in expected_findings
+            ]
             return EvaluationResult(
                 score=0.0,
-                missing_findings=[
-                    FindingMatchResult(expected_finding=f, matched_statement=None, similarity=0.0)
-                    for f in expected_findings
-                ],
+                missing_findings=empty_missing,
+                topic_scores=_aggregate_topic_scores(
+                    confirmed=[], missing=empty_missing, incorrect=[]
+                ),
                 tutor_feedback=(
                     "You didn't submit any interpretation text. Try describing "
                     "what the results show, one finding per sentence."
@@ -176,10 +282,11 @@ class AnswerEvaluator:
 
             if best_idx is not None:
                 confirmed.append(
-                    FindingMatchResult(
+                    _finding_match(
                         expected_finding=expected_finding,
                         matched_statement=raw_candidates[best_idx],
                         similarity=round(best_score, 3),
+                        normalized_finding=normalized_expected[row_idx],
                     )
                 )
                 matched_candidate_indices.add(best_idx)
@@ -187,10 +294,11 @@ class AnswerEvaluator:
             else:
                 top_idx = int(ranked_indices[0])
                 missing.append(
-                    FindingMatchResult(
+                    _finding_match(
                         expected_finding=expected_finding,
                         matched_statement=None,
                         similarity=round(float(scores[top_idx]), 3),
+                        normalized_finding=normalized_expected[row_idx],
                     )
                 )
 
@@ -214,6 +322,7 @@ class AnswerEvaluator:
                                 f"Expected {parameter} to be {expected_polarity}, "
                                 f"but this statement says {statement_polarity}."
                             ),
+                            topic=topic_for_parameter(parameter),
                         )
                     )
                     break
@@ -228,11 +337,15 @@ class AnswerEvaluator:
         tutor_feedback = _build_tutor_feedback(
             score=score, confirmed=confirmed, missing=missing, incorrect=incorrect
         )
+        topic_scores = _aggregate_topic_scores(
+            confirmed=confirmed, missing=missing, incorrect=incorrect
+        )
 
         return EvaluationResult(
             score=round(score, 1),
             confirmed_findings=confirmed,
             missing_findings=missing,
+            topic_scores=topic_scores,
             incorrect_findings=incorrect,
             tutor_feedback=tutor_feedback,
         )
@@ -247,9 +360,15 @@ def _build_tutor_feedback(
 ) -> str:
     """Rule-based feedback summary (no free-form LLM call — `docs/LLD.md` §2).
 
-    Sprint 5 formalizes per-finding "why this matters" explanation templates
-    tied to disease category; this is the minimal Sprint 4 version that
-    tells the student, in aggregate, what they got and what they missed.
+    Sprint 5 formalizes the per-finding "why this matters" explanation
+    templates (`app.services.tutor.explanations`, attached to every finding
+    via `_finding_match`) that Sprint 4 flagged as future work: the
+    aggregate summary below now surfaces the explanation for the single
+    most important gap — the first missing finding — rather than only
+    naming what was missed, so the tutor panel teaches the underlying
+    physiology, not just the checklist. Every individual finding's full
+    explanation is still available via `FindingMatchResult.explanation` for
+    the frontend's per-finding display (`InterpretationResultCard`).
     """
     parts: list[str] = []
 
@@ -270,6 +389,9 @@ def _build_tutor_feedback(
             + "; ".join(f.expected_finding for f in missing[:3])
             + ("..." if len(missing) > 3 else "")
         )
+        top_gap = missing[0]
+        if top_gap.explanation:
+            parts.append(f"Why it matters: {top_gap.explanation}")
     if incorrect:
         parts.append(
             f"{len(incorrect)} statement(s) contradict the case findings — review those results again."

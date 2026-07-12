@@ -4,11 +4,14 @@ export interface FindingMatch {
   expected_finding: string;
   matched_statement: string | null;
   similarity: number;
+  topic: string;
+  explanation: string;
 }
 
 export interface IncorrectStatement {
   statement: string;
   reason: string;
+  topic: string;
 }
 
 export interface InterpretationResult {

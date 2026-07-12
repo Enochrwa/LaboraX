@@ -16,11 +16,19 @@ class InterpretationRequest(BaseModel):
 
 
 class FindingMatch(BaseModel):
-    """One expected finding and how well the student's text matched it."""
+    """One expected finding and how well the student's text matched it.
+
+    `topic` and `explanation` are Sprint 5 additions — the learning topic
+    this finding belongs to (`student_topic_mastery`'s grouping) and the
+    rule-based "why this matters" text from
+    `app.services.tutor.explanations`.
+    """
 
     expected_finding: str
     matched_statement: str | None = None
     similarity: float
+    topic: str
+    explanation: str
 
 
 class IncorrectStatement(BaseModel):
@@ -28,6 +36,7 @@ class IncorrectStatement(BaseModel):
 
     statement: str
     reason: str
+    topic: str
 
 
 class InterpretationResultRead(BaseModel):

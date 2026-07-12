@@ -33,6 +33,8 @@ const strongResult: InterpretationResult = {
       expected_finding: "Hemoglobin is decreased",
       matched_statement: "Hemoglobin is decreased.",
       similarity: 0.9,
+      topic: "red_cell_indices",
+      explanation: "A low hemoglobin means the blood is carrying less oxygen than normal.",
     },
   ],
   missing_findings: [],
@@ -48,10 +50,20 @@ const weakResult: InterpretationResult = {
   score: 10,
   confirmed_findings: [],
   missing_findings: [
-    { expected_finding: "Hemoglobin is decreased", matched_statement: null, similarity: 0.1 },
+    {
+      expected_finding: "Hemoglobin is decreased",
+      matched_statement: null,
+      similarity: 0.1,
+      topic: "red_cell_indices",
+      explanation: "A low hemoglobin means the blood is carrying less oxygen than normal.",
+    },
   ],
   incorrect_findings: [
-    { statement: "Platelets are increased.", reason: "Expected platelets to be decreased." },
+    {
+      statement: "Platelets are increased.",
+      reason: "Expected platelets to be decreased.",
+      topic: "platelet_count",
+    },
   ],
   tutor_feedback: "This interpretation is missing most of the expected findings.",
   evaluated_at: new Date().toISOString(),

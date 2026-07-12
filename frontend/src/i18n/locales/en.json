@@ -32,7 +32,8 @@
     "welcome": "Welcome back, {{name}}",
     "subtitle": "Your virtual laboratory is ready.",
     "logout": "Log out",
-    "startHematologyCase": "Start a hematology case"
+    "startHematologyCase": "Start a hematology case",
+    "viewProgress": "My progress"
   },
   "hematology": {
     "caseIntake": {
@@ -117,5 +118,32 @@
   },
   "common": {
     "loading": "Loading..."
+  },
+  "scoring": {
+    "title": "My progress",
+    "subtitle": "Your topic mastery, built from every case you've interpreted.",
+    "loadError": "We couldn't load your progress. Please try again.",
+    "overallMastery": "Overall mastery",
+    "totalAttempts": "Interpretations submitted",
+    "byTopic": "By topic",
+    "noTopicsYet": "Submit an interpretation to start building your topic mastery.",
+    "recentAttempts": "Recent attempts",
+    "noAttemptsYet": "No attempts yet.",
+    "attemptsCount_one": "{{count}} attempt",
+    "attemptsCount_other": "{{count}} attempts",
+    "masteryValue": "{{score}}%",
+    "attemptScore": "Score: {{score}} / 100",
+    "viewProgress": "View my progress",
+    "topics": {
+      "red_cell_indices": "Red cell indices",
+      "red_cell_morphology": "Red cell morphology",
+      "marrow_response": "Marrow response",
+      "platelet_count": "Platelet count",
+      "white_cell_response": "White cell response",
+      "inflammatory_markers": "Inflammatory markers",
+      "iron_studies": "Iron studies",
+      "parasitology": "Parasitology",
+      "general_interpretation": "General interpretation"
+    }
   }
 }

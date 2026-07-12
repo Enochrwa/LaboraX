@@ -9,6 +9,7 @@ import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { CaseIntakePage } from "@/features/hematology/CaseIntakePage";
 import { InterpretationPage } from "@/features/hematology/InterpretationPage";
 import { TestOrderingPage } from "@/features/hematology/TestOrderingPage";
+import { ScoringPage } from "@/features/scoring/ScoringPage";
 
 function AppRoutes(): JSX.Element {
   return (
@@ -20,6 +21,14 @@ function AppRoutes(): JSX.Element {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/progress"
+        element={
+          <ProtectedRoute>
+            <ScoringPage />
           </ProtectedRoute>
         }
       />

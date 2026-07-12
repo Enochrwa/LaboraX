@@ -6,6 +6,11 @@ against the case's disease `expected_findings`, and the scored result is
 persisted so a submission history accumulates per case (kept as a thin
 transport/persistence layer over the service, per `docs/HLD.md` §3.2 — same
 shape as `app/api/v1/routes/tests.py`).
+
+Sprint 5 adds one more side effect after persisting the interpretation:
+`MasteryTracker.update_from_evaluation` blends the evaluation's per-topic
+scores into the student's `student_topic_mastery` rows, which
+`GET /api/v1/scoring/me` (`app/api/v1/routes/scoring.py`) then reads.
 """
 
 from __future__ import annotations
@@ -22,12 +27,14 @@ from app.db.models.interpretation_result import InterpretationResult
 from app.db.models.user import User, UserRole
 from app.schemas.interpretation import InterpretationRequest, InterpretationResultRead
 from app.services.answer_evaluator.evaluator import AnswerEvaluator
+from app.services.mastery.tracker import MasteryTracker
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/interpretations", tags=["interpretations"])
 
 _evaluator = AnswerEvaluator()
+_mastery_tracker = MasteryTracker()
 
 
 async def _load_owned_case(db: DbSession, current_user: User, case_id: uuid.UUID) -> Case:
@@ -75,6 +82,11 @@ async def submit_interpretation(
     db.add(interpretation)
     await db.commit()
     await db.refresh(interpretation)
+
+    await _mastery_tracker.update_from_evaluation(
+        db, student_id=current_user.id, topic_scores=evaluation.topic_scores
+    )
+    await db.commit()
 
     logger.info(
         "interpretation_evaluated",
