@@ -67,3 +67,28 @@ class TestExtractPolarity:
     def test_returns_none_when_multiple_conflicting_polarities(self) -> None:
         normalized = preprocessing.normalize("hemoglobin is decreased but wbc is increased")
         assert preprocessing.extract_polarity(normalized) is None
+
+
+class TestSprint7ChemistrySynonyms:
+    """Sprint 7 (Clinical Chemistry) parameter/abbreviation vocabulary."""
+
+    def test_canonicalizes_hepatic_abbreviations(self) -> None:
+        assert preprocessing.normalize("ALT is elevated") == "alt is increased"
+        assert preprocessing.normalize("AST is high") == "ast is increased"
+        assert preprocessing.normalize("total bilirubin is raised") == "bilirubin is increased"
+
+    def test_canonicalizes_renal_terms(self) -> None:
+        assert preprocessing.normalize("serum urea is increased") == "urea is increased"
+        assert preprocessing.normalize("Creatinine is high") == "creatinine is increased"
+
+    def test_canonicalizes_electrolyte_terms(self) -> None:
+        assert preprocessing.normalize("sodium is low") == "sodium is decreased"
+        assert preprocessing.normalize("potassium is elevated") == "potassium is increased"
+        assert preprocessing.normalize("bicarbonate is reduced") == "bicarbonate is decreased"
+
+    def test_canonicalizes_glucose_terms(self) -> None:
+        assert preprocessing.normalize("blood glucose is high") == "glucose is increased"
+
+    def test_extracts_chemistry_parameters(self) -> None:
+        normalized = preprocessing.normalize("ALT and AST are both increased")
+        assert preprocessing.extract_parameters(normalized) == {"alt", "ast"}

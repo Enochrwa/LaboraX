@@ -11,14 +11,25 @@ def test_load_disease_seed_definitions_returns_hematology_diseases() -> None:
     definitions = load_disease_seed_definitions()
     names = {d["name"] for d in definitions}
 
-    assert names == {"Malaria", "Iron Deficiency Anemia", "Generic Bacterial Infection"}
+    assert {"Malaria", "Iron Deficiency Anemia", "Generic Bacterial Infection"} <= names
+
+
+def test_load_disease_seed_definitions_returns_chemistry_diseases() -> None:
+    definitions = load_disease_seed_definitions()
+    names = {d["name"] for d in definitions}
+
+    assert {
+        "Acute Viral Hepatitis",
+        "Acute Kidney Injury",
+        "Diabetic Ketoacidosis",
+    } <= names
 
 
 def test_every_definition_has_required_shape() -> None:
     definitions = load_disease_seed_definitions()
 
     for definition in definitions:
-        assert definition["category"] == "hematology"
+        assert definition["category"] in {"hematology", "chemistry"}
         assert "required" in definition["symptom_template"]
         assert "expected_findings" in definition["lab_pattern_template"]
         assert set(definition["difficulty_levels"]) == {"novice", "intermediate", "advanced"}

@@ -58,7 +58,18 @@ async def test_get_test_catalog_lists_every_seeded_test(
     assert response.status_code == 200
     body = response.json()
     codes = {entry["code"] for entry in body}
-    assert codes == {"CBC", "PBF", "RETIC", "FERRITIN", "CRP", "LFT", "URINALYSIS"}
+    assert codes == {
+        "CBC",
+        "PBF",
+        "RETIC",
+        "FERRITIN",
+        "CRP",
+        "LFT",
+        "RFT",
+        "ELECTROLYTES",
+        "GLUCOSE",
+        "URINALYSIS",
+    }
     # Relevance rules are an internal answer-key-adjacent detail.
     assert "relevance_rules" not in body[0]
 

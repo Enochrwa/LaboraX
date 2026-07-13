@@ -47,7 +47,14 @@ async def test_next_case_returns_a_generated_case(
     client: AsyncClient, seeded_diseases: list[Disease]
 ) -> None:
     token = await _register_and_login(client)
-    response = await client.get("/api/v1/cases/next", headers={"Authorization": f"Bearer {token}"})
+    response = await client.get(
+        "/api/v1/cases/next",
+        headers={"Authorization": f"Bearer {token}"},
+        # Pinned to hematology: Sprint 7 added chemistry disease templates,
+        # so an unfiltered request could otherwise non-deterministically
+        # return either category.
+        params={"category": "hematology"},
+    )
 
     assert response.status_code == 200
     body = response.json()
@@ -97,6 +104,21 @@ async def test_next_case_honors_category_filter(
     )
     assert response.status_code == 200
     assert response.json()["disease"]["category"] == "hematology"
+
+
+async def test_next_case_honors_chemistry_category_filter(
+    client: AsyncClient, seeded_diseases: list[Disease]
+) -> None:
+    """Sprint 7: the Clinical Chemistry module reuses this same endpoint,
+    filtered to `category=chemistry`, with no route changes required."""
+    token = await _register_and_login(client)
+    response = await client.get(
+        "/api/v1/cases/next",
+        headers={"Authorization": f"Bearer {token}"},
+        params={"category": "chemistry"},
+    )
+    assert response.status_code == 200
+    assert response.json()["disease"]["category"] == "chemistry"
 
 
 async def test_next_case_returns_404_for_unknown_category(

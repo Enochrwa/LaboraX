@@ -17,10 +17,11 @@ Design notes:
   Topics, not raw parameters, are what `student_topic_mastery` (Sprint 5)
   tracks, since "how is the student doing on red cell indices overall" is a
   more useful mastery signal than one row per lab parameter.
-- Deliberately hematology-scoped for Sprint 5 (Phase 1), same scoping
-  decision already made for `preprocessing.PARAMETER_SYNONYMS` in Sprint 4 —
-  Sprint 7+ (Clinical Chemistry) and beyond extend this table per-category
-  without touching `evaluator.py` or `MasteryTracker`.
+- Sprint 5 (Phase 1) scoped this table to hematology; Sprint 7 (Clinical
+  Chemistry) extends it in place with hepatic/renal/electrolyte parameters,
+  without touching `evaluator.py` or `MasteryTracker` — the extension point
+  this module's Sprint 5 docstring anticipated. Sprint 9+ (Microbiology,
+  Parasitology, ...) can keep extending the same way.
 """
 
 from __future__ import annotations
@@ -50,6 +51,22 @@ TOPIC_BY_PARAMETER: dict[str, str] = {
     "ferritin": "iron_studies",
     "trophozoite": "parasitology",
     "gametocyte": "parasitology",
+    # --- Sprint 7 (Clinical Chemistry) ---
+    "alt": "hepatic_function",
+    "ast": "hepatic_function",
+    "bilirubin": "hepatic_function",
+    "hepatocellular_injury": "hepatic_function",
+    "urea": "renal_function",
+    "creatinine": "renal_function",
+    "renal_function": "renal_function",
+    "sodium": "electrolyte_balance",
+    "potassium": "electrolyte_balance",
+    "chloride": "electrolyte_balance",
+    "bicarbonate": "electrolyte_balance",
+    "metabolic_acidosis": "electrolyte_balance",
+    "glucose": "glucose_metabolism",
+    "hyperglycemia": "glucose_metabolism",
+    "hypoglycemia": "glucose_metabolism",
 }
 
 DEFAULT_TOPIC = "general_interpretation"
@@ -167,6 +184,98 @@ _EXPLANATIONS: dict[tuple[str, str | None], str] = {
         "Anisocytosis (varying red cell sizes on the film) is the visual "
         "counterpart of a raised RDW, and supports an active, evolving "
         "red-cell production problem rather than a long-stable one."
+    ),
+    # --- Sprint 7 (Clinical Chemistry) ---
+    ("alt", "increased"): (
+        "ALT is a liver-specific enzyme released when hepatocytes are "
+        "injured — a marked rise (usually out of proportion to AST in "
+        "hepatocellular disease) points to direct liver-cell damage rather "
+        "than a biliary obstruction picture."
+    ),
+    ("ast", "increased"): (
+        "AST rises alongside ALT in hepatocellular injury, but it's also "
+        "found in cardiac and skeletal muscle — an ALT-predominant rise "
+        "supports a liver-specific cause, while an AST-predominant rise "
+        "should prompt you to consider muscle or cardiac sources too."
+    ),
+    ("bilirubin", "increased"): (
+        "A raised total bilirubin is what produces visible jaundice — "
+        "pairing it with markedly elevated transaminases points to a "
+        "hepatocellular cause rather than pure hemolysis or obstruction."
+    ),
+    ("hepatocellular_injury", None): (
+        "'Hepatocellular injury' describes a pattern where liver-cell "
+        "enzymes (ALT/AST) rise disproportionately to bilirubin/ALP — "
+        "distinguishing it from a cholestatic/obstructive pattern is a key "
+        "first step in narrowing the differential for liver disease."
+    ),
+    ("urea", "increased"): (
+        "A raised serum urea reflects reduced renal clearance of nitrogenous "
+        "waste — interpreting it alongside creatinine (which is less "
+        "affected by diet/hydration) helps confirm true renal impairment "
+        "rather than a purely pre-renal (dehydration) picture."
+    ),
+    ("creatinine", "increased"): (
+        "Creatinine is produced at a fairly constant rate from muscle and "
+        "cleared almost entirely by the kidneys, so a rising creatinine is "
+        "one of the most specific routine markers of declining kidney "
+        "function — the degree of rise roughly tracks the severity of "
+        "injury."
+    ),
+    ("renal_function", None): (
+        "Renal function is best judged from urea and creatinine together, "
+        "not either alone — creatinine is the more specific marker, while "
+        "urea can also rise from dehydration, a high-protein diet, or GI "
+        "bleeding."
+    ),
+    ("sodium", "decreased"): (
+        "Hyponatremia here reflects osmotic dilution — severe hyperglycemia "
+        "pulls water into the vascular space and lowers the measured sodium "
+        "concentration even though total-body sodium hasn't actually "
+        "changed, a distinction worth stating explicitly in an "
+        "interpretation."
+    ),
+    ("sodium", "increased"): (
+        "Hypernatremia usually reflects a relative water deficit (dehydration "
+        "outpacing sodium loss) rather than a true sodium excess — always "
+        "interpret it alongside the patient's fluid status."
+    ),
+    ("potassium", "increased"): (
+        "Hyperkalemia is one of the few lab findings that can be immediately "
+        "life-threatening (cardiac arrhythmia) — it can arise from reduced "
+        "renal excretion, or, as in diabetic ketoacidosis, from acidosis "
+        "shifting potassium out of cells even while total-body stores are "
+        "actually depleted."
+    ),
+    ("potassium", "decreased"): (
+        "Hypokalemia can result from GI losses, renal wasting, or a shift of "
+        "potassium into cells — worth correlating with the rest of the "
+        "electrolyte panel before assuming a single cause."
+    ),
+    ("chloride", "decreased"): (
+        "Chloride often tracks with sodium and bicarbonate; a fall usually "
+        "reflects the same process driving those changes rather than an "
+        "independent chloride-specific problem."
+    ),
+    ("bicarbonate", "decreased"): (
+        "A low bicarbonate signals a metabolic acidosis — the body's "
+        "buffering capacity is being consumed faster than it can be "
+        "replenished, as seen in diabetic ketoacidosis where ketoacids "
+        "accumulate faster than the kidneys/lungs can compensate."
+    ),
+    ("metabolic_acidosis", None): (
+        "A metabolic acidosis (low bicarbonate) combined with rapid, deep "
+        "breathing is the body attempting respiratory compensation — "
+        "blowing off CO2 to partially correct the pH, which is why the "
+        "respiratory rate is part of the clinical picture, not a separate "
+        "finding."
+    ),
+    ("glucose", "increased"): (
+        "Marked hyperglycemia in the context of acidosis and electrolyte "
+        "shifts is the hallmark of diabetic ketoacidosis — insulin "
+        "deficiency prevents cells from using glucose, so it accumulates in "
+        "the blood while the body burns fat for energy, producing the "
+        "ketoacids that drive the acidosis."
     ),
 }
 

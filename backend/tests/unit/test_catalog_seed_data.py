@@ -11,7 +11,18 @@ def test_load_test_catalog_definitions_returns_expected_codes() -> None:
     definitions = load_test_catalog_definitions()
     codes = {d["code"] for d in definitions}
 
-    assert codes == {"CBC", "PBF", "RETIC", "FERRITIN", "CRP", "LFT", "URINALYSIS"}
+    assert codes == {
+        "CBC",
+        "PBF",
+        "RETIC",
+        "FERRITIN",
+        "CRP",
+        "LFT",
+        "RFT",
+        "ELECTROLYTES",
+        "GLUCOSE",
+        "URINALYSIS",
+    }
 
 
 def test_every_definition_has_required_shape() -> None:

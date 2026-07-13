@@ -32,6 +32,29 @@
     "welcome": "Bon retour, {{name}}",
     "subtitle": "Votre laboratoire virtuel est prêt.",
     "logout": "Se déconnecter",
+    "practiceModulesHeading": "Modules de pratique",
+    "moreHeading": "Plus",
+    "comingSoon": "Bientôt disponible",
+    "hematologyModule": {
+      "title": "Hématologie",
+      "description": "Traitez un cas d'hématologie : prescrivez un NFS/frottis, interprétez les résultats."
+    },
+    "chemistryModule": {
+      "title": "Biochimie clinique",
+      "description": "Traitez un cas de biochimie : bilan hépatique, fonction rénale et électrolytes."
+    },
+    "microbiologyModule": {
+      "title": "Microbiologie",
+      "description": "Simulations de cas de culture et d'antibiogramme."
+    },
+    "progressModule": {
+      "title": "Ma progression",
+      "description": "Consultez votre maîtrise par thème, construite à partir de chaque cas interprété."
+    },
+    "lecturerModule": {
+      "title": "Tableau de bord enseignant",
+      "description": "Attribuez des cas et consultez les performances de la classe."
+    },
     "startHematologyCase": "Démarrer un cas d'hématologie",
     "viewProgress": "Ma progression",
     "openLecturerDashboard": "Ouvrir le tableau de bord enseignant"
@@ -144,7 +167,11 @@
       "inflammatory_markers": "Marqueurs inflammatoires",
       "iron_studies": "Bilan martial",
       "parasitology": "Parasitologie",
-      "general_interpretation": "Interpretation generale"
+      "general_interpretation": "Interpretation generale",
+      "hepatic_function": "Fonction hépatique",
+      "renal_function": "Fonction rénale",
+      "electrolyte_balance": "Équilibre électrolytique",
+      "glucose_metabolism": "Métabolisme du glucose"
     }
   },
   "lecturerDashboard": {
@@ -186,6 +213,85 @@
       "noneMissed": "Aucun résultat manqué pour le moment.",
       "missCount_one": "Manqué {{count}} fois",
       "missCount_other": "Manqué {{count}} fois"
+    }
+  },
+  "clinicalChemistry": {
+    "caseIntake": {
+      "title": "Cas du patient",
+      "subtitle": "Examinez la présentation du patient avant de prescrire des examens.",
+      "backToDashboard": "Retour au tableau de bord",
+      "error": "Impossible de générer un cas. Veuillez réessayer.",
+      "clinicalHistory": "Antécédents cliniques",
+      "presentingSymptoms": "Symptômes présentés",
+      "vitals": "Signes vitaux",
+      "newCase": "Obtenir un nouveau cas",
+      "orderTests": "Prescrire des examens",
+      "age": "{{age}} ans",
+      "difficulty": {
+        "novice": "Débutant",
+        "intermediate": "Intermédiaire",
+        "advanced": "Avancé"
+      },
+      "sex": {
+        "male": "Homme",
+        "female": "Femme"
+      },
+      "vitalLabels": {
+        "temperature_c": "Température (°C)",
+        "heart_rate_bpm": "Fréquence cardiaque (bpm)",
+        "respiratory_rate_bpm": "Fréquence respiratoire (bpm)",
+        "blood_pressure_systolic": "TA systolique (mmHg)"
+      }
+    },
+    "testOrdering": {
+      "title": "Prescrire des examens",
+      "subtitle": "Choisissez les examens à prescrire pour ce patient.",
+      "loadError": "Impossible de charger le catalogue d'examens ou les résultats. Veuillez réessayer.",
+      "orderError": "Impossible d'envoyer cette prescription. Veuillez réessayer.",
+      "selectTests": "Examens disponibles",
+      "orderSelected": "Prescrire les examens sélectionnés",
+      "ordering": "Prescription en cours...",
+      "alreadyOrdered": "Prescrit",
+      "results": "Résultats",
+      "noResultsYet": "Aucun résultat pour l'instant — prescrivez un examen pour voir ses résultats ici.",
+      "totalPenalty": "Pénalité de coût : {{penalty}}",
+      "flags": {
+        "low": "Bas",
+        "normal": "Normal",
+        "high": "Élevé",
+        "abnormal": "Anormal"
+      },
+      "parameterLabels": {
+        "alt_u_l": "ALAT (U/L)",
+        "ast_u_l": "ASAT (U/L)",
+        "total_bilirubin_mg_dl": "Bilirubine totale (mg/dL)",
+        "urea_mg_dl": "Urée (mg/dL)",
+        "creatinine_mg_dl": "Créatinine (mg/dL)",
+        "sodium_mmol_l": "Sodium (mmol/L)",
+        "potassium_mmol_l": "Potassium (mmol/L)",
+        "chloride_mmol_l": "Chlorure (mmol/L)",
+        "bicarbonate_mmol_l": "Bicarbonate (mmol/L)",
+        "glucose_mg_dl": "Glucose (mg/dL)",
+        "hemoglobin_g_dl": "Hémoglobine (g/dL)",
+        "platelets_10e9_l": "Plaquettes (×10⁹/L)"
+      },
+      "submitInterpretation": "Soumettre votre interprétation"
+    },
+    "interpretation": {
+      "title": "Interpréter les résultats",
+      "subtitle": "Décrivez ce que montrent les résultats, avec vos propres mots.",
+      "loadError": "Impossible de charger votre historique d'interprétations. Veuillez réessayer.",
+      "submitError": "Impossible de soumettre cette interprétation. Veuillez réessayer.",
+      "inputLabel": "Votre interprétation",
+      "inputPlaceholder": "ex. L'ALAT et l'ASAT sont augmentées, compatible avec une atteinte hépatocellulaire...",
+      "submit": "Soumettre l'interprétation",
+      "submitting": "Évaluation en cours...",
+      "scoreLabel": "Score",
+      "scoreValue": "{{score}} / 100",
+      "confirmed": "Résultats que vous avez identifiés",
+      "missing": "Résultats manqués",
+      "incorrect": "Affirmations qui ne correspondent pas au cas",
+      "previousAttempts": "Tentatives précédentes ({{count}})"
     }
   }
 }

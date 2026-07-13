@@ -36,6 +36,11 @@ def malaria(hematology_diseases: list[Disease]) -> Disease:
     return next(d for d in hematology_diseases if d.name == "Malaria")
 
 
+@pytest.fixture
+def acute_kidney_injury(hematology_diseases: list[Disease]) -> Disease:
+    return next(d for d in hematology_diseases if d.name == "Acute Kidney Injury")
+
+
 def test_generate_requires_at_least_one_disease() -> None:
     with pytest.raises(CaseGeneratorError):
         CaseGenerator([])
@@ -100,6 +105,26 @@ def test_generate_filters_by_category(hematology_diseases: list[Disease]) -> Non
     generator = CaseGenerator(hematology_diseases)
     disease, _ = generator.generate(category="hematology", difficulty="novice", seed=1)
     assert disease.category == DiseaseCategory.HEMATOLOGY
+
+
+def test_generate_filters_by_chemistry_category(hematology_diseases: list[Disease]) -> None:
+    """Sprint 7: Clinical Chemistry diseases flow through the same,
+    unmodified `CaseGenerator` — only the seed data changed."""
+    generator = CaseGenerator(hematology_diseases)
+    disease, case = generator.generate(category="chemistry", difficulty="novice", seed=1)
+    assert disease.category == DiseaseCategory.CHEMISTRY
+    assert case.doctor_request["presenting_symptoms"]
+
+
+def test_chemistry_case_includes_all_required_symptoms(
+    acute_kidney_injury: Disease,
+) -> None:
+    generator = CaseGenerator([acute_kidney_injury])
+    _, case = generator.generate(difficulty="novice", seed=42)
+
+    required = set(acute_kidney_injury.symptom_template["required"])
+    presenting = set(case.doctor_request["presenting_symptoms"])
+    assert required.issubset(presenting)
 
 
 def test_generate_rejects_unknown_category(hematology_diseases: list[Disease]) -> None:

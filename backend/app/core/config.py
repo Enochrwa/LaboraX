@@ -6,8 +6,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from sqlalchemy.engine import URL, make_url
-
+from sqlalchemy.engine import make_url
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 load_dotenv(str(ROOT_DIR / ".env"), override=False)
@@ -21,7 +20,9 @@ def normalize_database_url(raw_url: str) -> str:
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=str(ROOT_DIR / ".env"), extra="ignore", case_sensitive=False)
+    model_config = SettingsConfigDict(
+        env_file=str(ROOT_DIR / ".env"), extra="ignore", case_sensitive=False
+    )
 
     environment: str = "local"
     debug: bool = True

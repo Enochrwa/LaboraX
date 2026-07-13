@@ -32,6 +32,29 @@
     "welcome": "Murakaza neza, {{name}}",
     "subtitle": "Laboratwari yawe ya mudasobwa iteguwe.",
     "logout": "Sohoka",
+    "practiceModulesHeading": "Ibice by'imyitozo",
+    "moreHeading": "Ibindi",
+    "comingSoon": "Bizaza vuba",
+    "hematologyModule": {
+      "title": "Amaraso (Hematology)",
+      "description": "Kora ikizamini cy'amaraso: saba CBC/film, hanyuma usesengure ibisubizo."
+    },
+    "chemistryModule": {
+      "title": "Shimi y'ubuvuzi (Clinical Chemistry)",
+      "description": "Kora ikizamini cya shimi: umwijima, impyiko, n'imyunyu ngugu."
+    },
+    "microbiologyModule": {
+      "title": "Mikorobiyoloji",
+      "description": "Ibigeragezo by'uburezi ku dukoko n'imiti ibica."
+    },
+    "progressModule": {
+      "title": "Aho ngeze",
+      "description": "Reba ubumenyi bwawe kuri buri ngingo, buturuka ku bizamini byose wasesenguye."
+    },
+    "lecturerModule": {
+      "title": "Ikibaho cy'umwarimu",
+      "description": "Ha abanyeshuri ibizamini kandi urebe imikorere y'ishuri."
+    },
     "startHematologyCase": "Tangira ikizamini cy'amaraso",
     "viewProgress": "Aho ngeze",
     "openLecturerDashboard": "Fungura ikibaho cy'umwarimu"
@@ -144,7 +167,11 @@
       "inflammatory_markers": "Ibimenyetso by'ubuvyi",
       "iron_studies": "Isuzuma rya feri",
       "parasitology": "Ubuvuzi bw'udukoko",
-      "general_interpretation": "Isesengura rusange"
+      "general_interpretation": "Isesengura rusange",
+      "hepatic_function": "Imikorere y'umwijima",
+      "renal_function": "Imikorere y'impyiko",
+      "electrolyte_balance": "Uringaniza ry'imyunyu ngugu",
+      "glucose_metabolism": "Imikoreshereze y'isukari"
     }
   },
   "lecturerDashboard": {
@@ -186,6 +213,85 @@
       "noneMissed": "Nta gisubizo kibuze.",
       "missCount_one": "Byabuze inshuro {{count}}",
       "missCount_other": "Byabuze inshuro {{count}}"
+    }
+  },
+  "clinicalChemistry": {
+    "caseIntake": {
+      "title": "Umurwayi wo gusuzuma",
+      "subtitle": "Suzuma neza ibimenyetso by'umurwayi mbere yo gusaba ibizamini.",
+      "backToDashboard": "Subira ku ipaji nyamukuru",
+      "error": "Ntibyakunze gutegura umurwayi. Ongera ugerageze.",
+      "clinicalHistory": "Amateka y'uburwayi",
+      "presentingSymptoms": "Ibimenyetso agaragaza",
+      "vitals": "Ibipimo by'ubuzima",
+      "newCase": "Saba undi murwayi",
+      "orderTests": "Saba ibizamini",
+      "age": "Imyaka {{age}}",
+      "difficulty": {
+        "novice": "Umutangira",
+        "intermediate": "Hagati",
+        "advanced": "Uwagezeho"
+      },
+      "sex": {
+        "male": "Gabo",
+        "female": "Gore"
+      },
+      "vitalLabels": {
+        "temperature_c": "Ubushyuhe (°C)",
+        "heart_rate_bpm": "Uko umutima utera (bpm)",
+        "respiratory_rate_bpm": "Uko guhumeka (bpm)",
+        "blood_pressure_systolic": "Umuvuduko w'amaraso (mmHg)"
+      }
+    },
+    "testOrdering": {
+      "title": "Saba ibizamini",
+      "subtitle": "Hitamo ibizamini wifuza gusaba kuri uyu murwayi.",
+      "loadError": "Ntibyakunze gutegura urutonde rw'ibizamini cyangwa ibisubizo. Ongera ugerageze.",
+      "orderError": "Ntibyakunze kohereza iyi saba. Ongera ugerageze.",
+      "selectTests": "Ibizamini bihari",
+      "orderSelected": "Saba ibizamini watoranyije",
+      "ordering": "Birimo koherezwa...",
+      "alreadyOrdered": "Byasabwe",
+      "results": "Ibisubizo",
+      "noResultsYet": "Nta bisubizo urabona — saba ikizamini kugira ngo ubone ibisubizo hano.",
+      "totalPenalty": "Igihombo cy'ikiguzi: {{penalty}}",
+      "flags": {
+        "low": "Byo hasi",
+        "normal": "Bisanzwe",
+        "high": "Byo hejuru",
+        "abnormal": "Bidasanzwe"
+      },
+      "parameterLabels": {
+        "alt_u_l": "ALT (U/L)",
+        "ast_u_l": "AST (U/L)",
+        "total_bilirubin_mg_dl": "Bilirubine yose (mg/dL)",
+        "urea_mg_dl": "Urea (mg/dL)",
+        "creatinine_mg_dl": "Kreyatinine (mg/dL)",
+        "sodium_mmol_l": "Sodium (mmol/L)",
+        "potassium_mmol_l": "Potassium (mmol/L)",
+        "chloride_mmol_l": "Chloride (mmol/L)",
+        "bicarbonate_mmol_l": "Bicarbonate (mmol/L)",
+        "glucose_mg_dl": "Isukari mu maraso (mg/dL)",
+        "hemoglobin_g_dl": "Hemoglobine (g/dL)",
+        "platelets_10e9_l": "Platelets (×10⁹/L)"
+      },
+      "submitInterpretation": "Ohereza ibisobanuro byawe"
+    },
+    "interpretation": {
+      "title": "Sesengura ibisubizo",
+      "subtitle": "Sobanura icyo ibisubizo byerekana, mu magambo yawe bwite.",
+      "loadError": "Ntibyakunze gushaka amateka y'ibisobanuro byawe. Ongera ugerageze.",
+      "submitError": "Ntibyakunze kohereza icyo gisobanuro. Ongera ugerageze.",
+      "inputLabel": "Igisobanuro cyawe",
+      "inputPlaceholder": "urugero: ALT na AST byiyongereye, bihuye n'uburwayi bw'umwijima...",
+      "submit": "Ohereza igisobanuro",
+      "submitting": "Kwerekana amanota...",
+      "scoreLabel": "Amanota",
+      "scoreValue": "{{score}} / 100",
+      "confirmed": "Ibyo wamenye neza",
+      "missing": "Ibyo wibagiwe",
+      "incorrect": "Ibivugwa bidahuye n'iki kibazo",
+      "previousAttempts": "Ibigeragezo byabanjirije ({{count}})"
     }
   }
 }
