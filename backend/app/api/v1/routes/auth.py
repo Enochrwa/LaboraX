@@ -7,7 +7,7 @@ import uuid
 
 from fastapi import APIRouter, HTTPException, status
 
-from app.core.deps import CurrentUser, DbSession, get_user_by_email
+from app.core.deps import CurrentUser, DbSession, _handle_db_error, get_user_by_email
 from app.core.security import (
     InvalidTokenError,
     TokenType,
@@ -35,7 +35,10 @@ def _issue_tokens(user: User) -> TokenResponse:
 
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 async def register(payload: UserCreate, db: DbSession) -> User:
-    existing = await get_user_by_email(db, payload.email)
+    try:
+        existing = await get_user_by_email(db, payload.email)
+    except Exception as exc:
+        raise _handle_db_error(exc) from exc
     if existing is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -50,7 +53,10 @@ async def register(payload: UserCreate, db: DbSession) -> User:
         hashed_password=hash_password(payload.password),
     )
     db.add(user)
-    await db.commit()
+    try:
+        await db.commit()
+    except Exception as exc:
+        raise _handle_db_error(exc) from exc
     await db.refresh(user)
     logger.info("user_registered", extra={"user_id": str(user.id), "role": user.role.value})
     return user
@@ -58,7 +64,10 @@ async def register(payload: UserCreate, db: DbSession) -> User:
 
 @router.post("/login", response_model=TokenResponse)
 async def login(payload: LoginRequest, db: DbSession) -> TokenResponse:
-    user = await get_user_by_email(db, payload.email)
+    try:
+        user = await get_user_by_email(db, payload.email)
+    except Exception as exc:
+        raise _handle_db_error(exc) from exc
     if user is None or not verify_password(payload.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -82,7 +91,10 @@ async def refresh(payload: RefreshRequest, db: DbSession) -> TokenResponse:
             detail="Invalid or expired refresh token",
         ) from exc
 
-    user = await db.get(User, uuid.UUID(token_payload.sub))
+    try:
+        user = await db.get(User, uuid.UUID(token_payload.sub))
+    except Exception as exc:
+        raise _handle_db_error(exc) from exc
     if user is None or not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

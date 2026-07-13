@@ -9,11 +9,22 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy import select
+from sqlalchemy.exc import ProgrammingError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import InvalidTokenError, TokenType, decode_token
 from app.db.models.user import User, UserRole
 from app.db.session import get_db
+
+DB_UNAVAILABLE = HTTPException(
+    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+    detail="Database unavailable",
+)
+
+def _handle_db_error(exc: Exception) -> HTTPException:
+    if isinstance(exc, (ConnectionRefusedError, OSError, ProgrammingError)):
+        return DB_UNAVAILABLE
+    raise exc
 
 DbSession = Annotated[AsyncSession, Depends(get_db)]
 
@@ -43,7 +54,10 @@ async def get_current_user(
     except ValueError as exc:
         raise _CREDENTIALS_EXCEPTION from exc
 
-    user = await db.get(User, user_id)
+    try:
+        user = await db.get(User, user_id)
+    except Exception as exc:
+        raise _handle_db_error(exc) from exc
     if user is None or not user.is_active:
         raise _CREDENTIALS_EXCEPTION
     return user
@@ -75,5 +89,8 @@ async def get_user_by_email(
     query = select(User).where(User.email == email)
     if roles:
         query = query.where(User.role.in_(roles))
-    result = await db.execute(query)
+    try:
+        result = await db.execute(query)
+    except Exception as exc:
+        raise _handle_db_error(exc) from exc
     return result.scalar_one_or_none()
