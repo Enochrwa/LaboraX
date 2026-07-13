@@ -16,7 +16,17 @@ def normalize_database_url(raw_url: str) -> str:
     url = make_url(raw_url)
     if url.drivername == "postgresql":
         url = url.set(drivername="postgresql+asyncpg")
-    return str(url)
+    # `str(url)` / `repr(url)` deliberately mask the password with "***" to
+    # keep secrets out of logs/tracebacks (SQLAlchemy's default since 1.4).
+    # That's exactly wrong here: this is the literal DSN handed to the
+    # driver to connect, not something being logged. Using `str(url)`
+    # silently produced a connection string with a literal "***" in place
+    # of the real password, which connects fine locally against an
+    # empty/trust-auth Postgres but fails password authentication anywhere
+    # auth is actually enforced (every CI run's `postgres:16-alpine`
+    # service, any real deployment). `render_as_string(hide_password=False)`
+    # is the explicit, intentional opt-out.
+    return url.render_as_string(hide_password=False)
 
 
 class Settings(BaseSettings):
