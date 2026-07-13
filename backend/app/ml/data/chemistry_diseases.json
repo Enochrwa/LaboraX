@@ -1,0 +1,111 @@
+[
+  {
+    "name": "Acute Viral Hepatitis",
+    "category": "chemistry",
+    "symptom_template": {
+      "chief_complaint": "yellowing of the eyes and dark urine for {duration_days} days",
+      "required": ["jaundice", "right upper quadrant pain", "fatigue"],
+      "optional": ["nausea", "vomiting", "loss of appetite", "low-grade fever", "pale stools"],
+      "vitals": {
+        "temperature_c": [37.0, 38.5],
+        "heart_rate_bpm": [75, 105],
+        "respiratory_rate_bpm": [14, 20],
+        "blood_pressure_systolic": [100, 125]
+      },
+      "duration_days": [3, 14]
+    },
+    "lab_pattern_template": {
+      "expected_findings": [
+        "ALT is markedly increased, consistent with hepatocellular injury",
+        "AST is increased, though to a lesser degree than ALT",
+        "Total bilirubin is increased, consistent with the clinical jaundice",
+        "Hemoglobin and platelet counts remain within normal limits"
+      ],
+      "cbc_deltas": {
+        "alt_u_l": [150.0, 600.0],
+        "ast_u_l": [80.0, 350.0],
+        "total_bilirubin_mg_dl": [2.0, 8.0],
+        "hemoglobin_g_dl": [-0.3, 0.3],
+        "platelets_10e9_l": [-15, 15]
+      },
+      "blood_film_findings": []
+    },
+    "difficulty_levels": {
+      "novice": { "symptom_count": 3, "noise_symptom_count": 0 },
+      "intermediate": { "symptom_count": 4, "noise_symptom_count": 1 },
+      "advanced": { "symptom_count": 5, "noise_symptom_count": 2 }
+    }
+  },
+  {
+    "name": "Acute Kidney Injury",
+    "category": "chemistry",
+    "symptom_template": {
+      "chief_complaint": "reduced urine output and swelling for {duration_days} days",
+      "required": ["reduced urine output", "leg swelling", "fatigue"],
+      "optional": ["nausea", "confusion", "shortness of breath", "loss of appetite"],
+      "vitals": {
+        "temperature_c": [36.5, 37.6],
+        "heart_rate_bpm": [80, 115],
+        "respiratory_rate_bpm": [16, 24],
+        "blood_pressure_systolic": [130, 170]
+      },
+      "duration_days": [1, 7]
+    },
+    "lab_pattern_template": {
+      "expected_findings": [
+        "Serum urea is increased, consistent with reduced renal clearance",
+        "Serum creatinine is increased, confirming impaired kidney function",
+        "Potassium is increased, reflecting reduced renal excretion",
+        "Hemoglobin remains within normal limits"
+      ],
+      "cbc_deltas": {
+        "urea_mg_dl": [40.0, 120.0],
+        "creatinine_mg_dl": [1.5, 5.0],
+        "potassium_mmol_l": [0.6, 2.0],
+        "hemoglobin_g_dl": [-0.4, 0.2]
+      },
+      "blood_film_findings": []
+    },
+    "difficulty_levels": {
+      "novice": { "symptom_count": 3, "noise_symptom_count": 0 },
+      "intermediate": { "symptom_count": 4, "noise_symptom_count": 1 },
+      "advanced": { "symptom_count": 5, "noise_symptom_count": 2 }
+    }
+  },
+  {
+    "name": "Diabetic Ketoacidosis",
+    "category": "chemistry",
+    "symptom_template": {
+      "chief_complaint": "excessive thirst and rapid breathing for {duration_days} days",
+      "required": ["excessive thirst", "frequent urination", "rapid breathing"],
+      "optional": ["nausea", "vomiting", "abdominal pain", "confusion", "fruity breath odor"],
+      "vitals": {
+        "temperature_c": [36.6, 37.8],
+        "heart_rate_bpm": [95, 130],
+        "respiratory_rate_bpm": [24, 36],
+        "blood_pressure_systolic": [90, 115]
+      },
+      "duration_days": [1, 3]
+    },
+    "lab_pattern_template": {
+      "expected_findings": [
+        "Blood glucose is markedly increased, consistent with uncontrolled hyperglycemia",
+        "Bicarbonate is decreased, consistent with a metabolic acidosis",
+        "Potassium is increased despite total-body depletion, reflecting the acidosis shift",
+        "Sodium is decreased, consistent with osmotic dilution from hyperglycemia"
+      ],
+      "cbc_deltas": {
+        "glucose_mg_dl": [200.0, 500.0],
+        "bicarbonate_mmol_l": [-14.0, -6.0],
+        "potassium_mmol_l": [0.3, 1.5],
+        "sodium_mmol_l": [-10.0, -3.0]
+      },
+      "blood_film_findings": []
+    },
+    "difficulty_levels": {
+      "novice": { "symptom_count": 3, "noise_symptom_count": 0 },
+      "intermediate": { "symptom_count": 4, "noise_symptom_count": 1 },
+      "advanced": { "symptom_count": 5, "noise_symptom_count": 2 }
+    }
+  }
+]

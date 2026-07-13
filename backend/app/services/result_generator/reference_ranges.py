@@ -1,9 +1,13 @@
 """Adult reference ranges for every lab parameter `ResultGenerator` can produce.
 
 Values are approximate teaching-grade reference intervals (not intended for
-clinical use — see `docs/PRD.md` §7, "Out of Scope"). Hemoglobin and Ferritin
-are sex-adjusted, since normal ranges genuinely differ; everything else uses
-a single unisex range for simplicity at MVP scope.
+clinical use — see `docs/PRD.md` §7, "Out of Scope"). Hemoglobin, Ferritin,
+and Creatinine are sex-adjusted, since normal ranges genuinely differ;
+everything else uses a single unisex range for simplicity at MVP scope.
+
+Sprint 7 (Clinical Chemistry) extends this table with LFT (bilirubin), RFT
+(urea/creatinine), and electrolyte/glucose parameters — same table, same
+`get_reference_range` contract, no change to `ResultGenerator` itself.
 """
 
 from __future__ import annotations
@@ -23,6 +27,14 @@ REFERENCE_RANGES: dict[str, ReferenceRange | dict[str, ReferenceRange]] = {
     "crp_mg_l": (0.0, 10.0),
     "alt_u_l": (7.0, 56.0),
     "ast_u_l": (10.0, 40.0),
+    "total_bilirubin_mg_dl": (0.1, 1.2),
+    "urea_mg_dl": (7.0, 20.0),
+    "creatinine_mg_dl": {"male": (0.7, 1.3), "female": (0.6, 1.1)},
+    "sodium_mmol_l": (135.0, 145.0),
+    "potassium_mmol_l": (3.5, 5.0),
+    "chloride_mmol_l": (98.0, 107.0),
+    "bicarbonate_mmol_l": (22.0, 29.0),
+    "glucose_mg_dl": (70.0, 99.0),
     "urine_protein_mg_dl": (0.0, 20.0),
     "urine_glucose_mg_dl": (0.0, 15.0),
 }

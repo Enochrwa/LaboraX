@@ -5,6 +5,9 @@ import { AppProviders } from "@/app/providers";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LoginPage } from "@/features/auth/LoginPage";
 import { RegisterPage } from "@/features/auth/RegisterPage";
+import { CaseIntakePage as ChemistryCaseIntakePage } from "@/features/clinicalChemistry/CaseIntakePage";
+import { InterpretationPage as ChemistryInterpretationPage } from "@/features/clinicalChemistry/InterpretationPage";
+import { TestOrderingPage as ChemistryTestOrderingPage } from "@/features/clinicalChemistry/TestOrderingPage";
 import { DashboardPage } from "@/features/dashboard/DashboardPage";
 import { CaseIntakePage } from "@/features/hematology/CaseIntakePage";
 import { InterpretationPage } from "@/features/hematology/InterpretationPage";
@@ -54,6 +57,33 @@ function AppRoutes(): JSX.Element {
         element={
           <ProtectedRoute>
             <InterpretationPage />
+          </ProtectedRoute>
+        }
+      />
+      {/* Sprint 7 — Clinical Chemistry: same route shape as hematology, own
+          feature module (`@/features/clinicalChemistry`), same generic
+          case/test/interpretation endpoints filtered to category=chemistry. */}
+      <Route
+        path="/chemistry/case"
+        element={
+          <ProtectedRoute>
+            <ChemistryCaseIntakePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/chemistry/case/:caseId/tests"
+        element={
+          <ProtectedRoute>
+            <ChemistryTestOrderingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/chemistry/case/:caseId/interpretation"
+        element={
+          <ProtectedRoute>
+            <ChemistryInterpretationPage />
           </ProtectedRoute>
         }
       />

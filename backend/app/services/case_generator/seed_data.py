@@ -23,7 +23,7 @@ class DiseaseSeedDefinition(TypedDict):
 
 # Every seed file that should be loaded into the `diseases` table. Extending
 # to a new department (Sprint 7+) is just adding another file here.
-SEED_FILES: tuple[str, ...] = ("hematology_diseases.json",)
+SEED_FILES: tuple[str, ...] = ("hematology_diseases.json", "chemistry_diseases.json")
 
 
 def load_disease_seed_definitions(

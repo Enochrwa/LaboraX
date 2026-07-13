@@ -15,9 +15,12 @@ hematology terms. Enock has made the same call before on HandyRwanda
 (replacing a HuggingFace API dependency with local TF-IDF + dictionary
 translation) for identical reasons.
 
-The domain synonym table below is intentionally small and hematology-scoped
-for Sprint 4 (Phase 1); Sprint 7+ (Clinical Chemistry) and beyond can extend
-it per-category without touching the scoring algorithm in `evaluator.py`.
+The domain synonym table below started intentionally small and
+hematology-scoped for Sprint 4 (Phase 1). Sprint 7 (Clinical Chemistry)
+extends it with LFT/RFT/electrolyte vocabulary, in place, without touching
+the scoring algorithm in `evaluator.py` — exactly the extension point this
+module's Sprint 4 docstring anticipated. Sprint 9+ (Microbiology,
+Parasitology, ...) can keep extending the same way.
 """
 
 from __future__ import annotations
@@ -78,6 +81,39 @@ PARAMETER_SYNONYMS: dict[str, str] = {
     "leukocytosis": "leukocytosis",
     "left shift": "left_shift",
     "band forms": "left_shift",
+    # --- Sprint 7 (Clinical Chemistry) ---
+    "alanine aminotransferase": "alt",
+    "alanine transaminase": "alt",
+    "alt": "alt",
+    "aspartate aminotransferase": "ast",
+    "aspartate transaminase": "ast",
+    "ast": "ast",
+    "total bilirubin": "bilirubin",
+    "bilirubin": "bilirubin",
+    "serum urea": "urea",
+    "blood urea": "urea",
+    "urea": "urea",
+    "bun": "urea",
+    "serum creatinine": "creatinine",
+    "creatinine": "creatinine",
+    "sodium": "sodium",
+    "na+": "sodium",
+    "potassium": "potassium",
+    "k+": "potassium",
+    "chloride": "chloride",
+    "bicarbonate": "bicarbonate",
+    "hco3": "bicarbonate",
+    "blood glucose": "glucose",
+    "serum glucose": "glucose",
+    "glucose": "glucose",
+    "blood sugar": "glucose",
+    "hyperglycemia": "hyperglycemia",
+    "hypoglycemia": "hypoglycemia",
+    "metabolic acidosis": "metabolic_acidosis",
+    "acidosis": "metabolic_acidosis",
+    "hepatocellular injury": "hepatocellular_injury",
+    "renal clearance": "renal_function",
+    "kidney function": "renal_function",
 }
 
 # Direction/polarity vocabulary, canonicalized to one of "increased",

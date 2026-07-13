@@ -32,6 +32,29 @@
     "welcome": "Welcome back, {{name}}",
     "subtitle": "Your virtual laboratory is ready.",
     "logout": "Log out",
+    "practiceModulesHeading": "Practice modules",
+    "moreHeading": "More",
+    "comingSoon": "Coming soon",
+    "hematologyModule": {
+      "title": "Hematology",
+      "description": "Work up a hematology case: order a CBC/film, interpret the results."
+    },
+    "chemistryModule": {
+      "title": "Clinical Chemistry",
+      "description": "Work up a chemistry case: LFTs, renal function, and electrolytes."
+    },
+    "microbiologyModule": {
+      "title": "Microbiology",
+      "description": "Culture and sensitivity case simulations."
+    },
+    "progressModule": {
+      "title": "My progress",
+      "description": "See your topic mastery, built from every case you've interpreted."
+    },
+    "lecturerModule": {
+      "title": "Lecturer dashboard",
+      "description": "Assign cases and review class performance."
+    },
     "startHematologyCase": "Start a hematology case",
     "viewProgress": "My progress",
     "openLecturerDashboard": "Open lecturer dashboard"
@@ -144,7 +167,11 @@
       "inflammatory_markers": "Inflammatory markers",
       "iron_studies": "Iron studies",
       "parasitology": "Parasitology",
-      "general_interpretation": "General interpretation"
+      "general_interpretation": "General interpretation",
+      "hepatic_function": "Hepatic function",
+      "renal_function": "Renal function",
+      "electrolyte_balance": "Electrolyte balance",
+      "glucose_metabolism": "Glucose metabolism"
     }
   },
   "lecturerDashboard": {
@@ -186,6 +213,85 @@
       "noneMissed": "No missed findings yet.",
       "missCount_one": "Missed {{count}} time",
       "missCount_other": "Missed {{count}} times"
+    }
+  },
+  "clinicalChemistry": {
+    "caseIntake": {
+      "title": "Patient case",
+      "subtitle": "Review the patient's presentation before ordering tests.",
+      "backToDashboard": "Back to dashboard",
+      "error": "We couldn't generate a case. Please try again.",
+      "clinicalHistory": "Clinical history",
+      "presentingSymptoms": "Presenting symptoms",
+      "vitals": "Vitals",
+      "newCase": "Get a new case",
+      "orderTests": "Order tests",
+      "age": "{{age}} years old",
+      "difficulty": {
+        "novice": "Novice",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      },
+      "sex": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "vitalLabels": {
+        "temperature_c": "Temperature (°C)",
+        "heart_rate_bpm": "Heart rate (bpm)",
+        "respiratory_rate_bpm": "Respiratory rate (bpm)",
+        "blood_pressure_systolic": "Systolic BP (mmHg)"
+      }
+    },
+    "testOrdering": {
+      "title": "Order tests",
+      "subtitle": "Choose the tests you'd order for this patient.",
+      "loadError": "We couldn't load the test catalog or results. Please try again.",
+      "orderError": "We couldn't submit that order. Please try again.",
+      "selectTests": "Available tests",
+      "orderSelected": "Order selected tests",
+      "ordering": "Ordering...",
+      "alreadyOrdered": "Ordered",
+      "results": "Results",
+      "noResultsYet": "No results yet — order a test to see its results here.",
+      "totalPenalty": "Cost penalty: {{penalty}}",
+      "flags": {
+        "low": "Low",
+        "normal": "Normal",
+        "high": "High",
+        "abnormal": "Abnormal"
+      },
+      "parameterLabels": {
+        "alt_u_l": "ALT (U/L)",
+        "ast_u_l": "AST (U/L)",
+        "total_bilirubin_mg_dl": "Total bilirubin (mg/dL)",
+        "urea_mg_dl": "Urea (mg/dL)",
+        "creatinine_mg_dl": "Creatinine (mg/dL)",
+        "sodium_mmol_l": "Sodium (mmol/L)",
+        "potassium_mmol_l": "Potassium (mmol/L)",
+        "chloride_mmol_l": "Chloride (mmol/L)",
+        "bicarbonate_mmol_l": "Bicarbonate (mmol/L)",
+        "glucose_mg_dl": "Glucose (mg/dL)",
+        "hemoglobin_g_dl": "Hemoglobin (g/dL)",
+        "platelets_10e9_l": "Platelets (×10⁹/L)"
+      },
+      "submitInterpretation": "Submit your interpretation"
+    },
+    "interpretation": {
+      "title": "Interpret the results",
+      "subtitle": "Describe what the results show, in your own words.",
+      "loadError": "We couldn't load your interpretation history. Please try again.",
+      "submitError": "We couldn't submit that interpretation. Please try again.",
+      "inputLabel": "Your interpretation",
+      "inputPlaceholder": "e.g. ALT and AST are increased, consistent with hepatocellular injury...",
+      "submit": "Submit interpretation",
+      "submitting": "Evaluating...",
+      "scoreLabel": "Score",
+      "scoreValue": "{{score}} / 100",
+      "confirmed": "Findings you identified",
+      "missing": "Findings you missed",
+      "incorrect": "Statements that don't match the case",
+      "previousAttempts": "Previous attempts ({{count}})"
     }
   }
 }

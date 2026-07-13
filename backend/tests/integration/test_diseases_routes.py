@@ -53,3 +53,19 @@ async def test_list_diseases_filters_by_category(
     )
     assert response.status_code == 200
     assert all(d["category"] == "hematology" for d in response.json())
+
+
+async def test_list_diseases_filters_by_chemistry_category(
+    client: AsyncClient, seeded_diseases: list[Disease]
+) -> None:
+    """Sprint 7: Clinical Chemistry diseases are listed the same way, via
+    the existing category filter — no route changes required."""
+    token = await _register_and_login(client, role="lecturer", email="lecturer2@laborax.dev")
+    response = await client.get(
+        "/api/v1/diseases",
+        headers={"Authorization": f"Bearer {token}"},
+        params={"category": "chemistry"},
+    )
+    assert response.status_code == 200
+    names = {d["name"] for d in response.json()}
+    assert names == {"Acute Viral Hepatitis", "Acute Kidney Injury", "Diabetic Ketoacidosis"}

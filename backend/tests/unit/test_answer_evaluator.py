@@ -19,10 +19,13 @@ from app.services.answer_evaluator.evaluator import AnswerEvaluator
 _DISEASE_DATA_PATH = (
     Path(__file__).resolve().parents[2] / "app" / "ml" / "data" / "hematology_diseases.json"
 )
+_CHEMISTRY_DISEASE_DATA_PATH = (
+    Path(__file__).resolve().parents[2] / "app" / "ml" / "data" / "chemistry_diseases.json"
+)
 
 
-def _load_disease(name: str) -> Disease:
-    definitions = json.loads(_DISEASE_DATA_PATH.read_text())
+def _load_disease(name: str, *, data_path: Path = _DISEASE_DATA_PATH) -> Disease:
+    definitions = json.loads(data_path.read_text())
     definition = next(d for d in definitions if d["name"] == name)
     return Disease(
         name=definition["name"],
@@ -51,6 +54,21 @@ def iron_deficiency_anemia() -> Disease:
 @pytest.fixture
 def generic_bacterial_infection() -> Disease:
     return _load_disease("Generic Bacterial Infection")
+
+
+@pytest.fixture
+def acute_viral_hepatitis() -> Disease:
+    return _load_disease("Acute Viral Hepatitis", data_path=_CHEMISTRY_DISEASE_DATA_PATH)
+
+
+@pytest.fixture
+def acute_kidney_injury() -> Disease:
+    return _load_disease("Acute Kidney Injury", data_path=_CHEMISTRY_DISEASE_DATA_PATH)
+
+
+@pytest.fixture
+def diabetic_ketoacidosis() -> Disease:
+    return _load_disease("Diabetic Ketoacidosis", data_path=_CHEMISTRY_DISEASE_DATA_PATH)
 
 
 # ---------------------------------------------------------------------------
@@ -264,3 +282,77 @@ class TestSprint5TutorExplanationsAndTopics:
     ) -> None:
         result = evaluator.evaluate(disease=malaria, student_text="Irrelevant text entirely.")
         assert "Why it matters:" in result.tutor_feedback
+
+
+class TestSprint7ChemistryGoldenCases:
+    """Golden-case regressions for Clinical Chemistry disease templates.
+
+    Mirrors `TestGoldenCases` above — same evaluator, same thresholds, only
+    the disease/expected-findings data differs, confirming the Sprint 4
+    algorithm generalizes to a new department without modification.
+    """
+
+    def test_acute_viral_hepatitis_strong_interpretation_scores_highly(
+        self, evaluator: AnswerEvaluator, acute_viral_hepatitis: Disease
+    ) -> None:
+        text = (
+            "ALT is markedly increased, consistent with hepatocellular injury. "
+            "AST is increased, though to a lesser degree than ALT. "
+            "Total bilirubin is increased, consistent with the clinical jaundice. "
+            "Hemoglobin and platelet counts remain within normal limits."
+        )
+        result = evaluator.evaluate(disease=acute_viral_hepatitis, student_text=text)
+        assert result.score == pytest.approx(100.0, abs=5.0)
+        assert len(result.confirmed_findings) == 4
+        assert not result.missing_findings
+        assert not result.incorrect_findings
+
+    def test_acute_kidney_injury_strong_interpretation_scores_highly(
+        self, evaluator: AnswerEvaluator, acute_kidney_injury: Disease
+    ) -> None:
+        text = (
+            "Serum urea is increased, consistent with reduced renal clearance. "
+            "Serum creatinine is increased, confirming impaired kidney function. "
+            "Potassium is increased, reflecting reduced renal excretion. "
+            "Hemoglobin remains within normal limits."
+        )
+        result = evaluator.evaluate(disease=acute_kidney_injury, student_text=text)
+        assert result.score == pytest.approx(100.0, abs=5.0)
+        assert len(result.confirmed_findings) == 4
+        assert not result.incorrect_findings
+
+    def test_diabetic_ketoacidosis_strong_interpretation_scores_highly(
+        self, evaluator: AnswerEvaluator, diabetic_ketoacidosis: Disease
+    ) -> None:
+        text = (
+            "Blood glucose is markedly increased, consistent with uncontrolled hyperglycemia. "
+            "Bicarbonate is decreased, consistent with a metabolic acidosis. "
+            "Potassium is increased despite total-body depletion, reflecting the acidosis shift. "
+            "Sodium is decreased, consistent with osmotic dilution from hyperglycemia."
+        )
+        result = evaluator.evaluate(disease=diabetic_ketoacidosis, student_text=text)
+        assert result.score == pytest.approx(100.0, abs=5.0)
+        assert len(result.confirmed_findings) == 4
+        assert not result.incorrect_findings
+
+    def test_contradicting_creatinine_polarity_is_flagged_incorrect(
+        self, evaluator: AnswerEvaluator, acute_kidney_injury: Disease
+    ) -> None:
+        text = "Serum creatinine is decreased. The patient reports leg swelling."
+        result = evaluator.evaluate(disease=acute_kidney_injury, student_text=text)
+
+        assert len(result.incorrect_findings) == 1
+        assert "creatinine" in result.incorrect_findings[0].reason.lower()
+        confirmed_texts = {f.expected_finding for f in result.confirmed_findings}
+        assert (
+            "Serum creatinine is increased, confirming impaired kidney function"
+            not in confirmed_texts
+        )
+
+    def test_chemistry_findings_map_to_dedicated_topics(
+        self, evaluator: AnswerEvaluator, acute_viral_hepatitis: Disease
+    ) -> None:
+        text = "ALT is increased. AST is increased. Bilirubin is increased."
+        result = evaluator.evaluate(disease=acute_viral_hepatitis, student_text=text)
+        topics = {f.topic for f in result.confirmed_findings}
+        assert topics <= {"hepatic_function"}

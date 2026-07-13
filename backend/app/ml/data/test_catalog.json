@@ -59,7 +59,39 @@
     "category": "chemistry",
     "cost_weight": 2.0,
     "relevance_rules": {
-      "measured_parameters": ["alt_u_l", "ast_u_l"]
+      "measured_parameters": ["alt_u_l", "ast_u_l", "total_bilirubin_mg_dl"]
+    }
+  },
+  {
+    "code": "RFT",
+    "name": "Renal Function Test",
+    "category": "chemistry",
+    "cost_weight": 2.0,
+    "relevance_rules": {
+      "measured_parameters": ["urea_mg_dl", "creatinine_mg_dl"]
+    }
+  },
+  {
+    "code": "ELECTROLYTES",
+    "name": "Serum Electrolytes",
+    "category": "chemistry",
+    "cost_weight": 1.5,
+    "relevance_rules": {
+      "measured_parameters": [
+        "sodium_mmol_l",
+        "potassium_mmol_l",
+        "chloride_mmol_l",
+        "bicarbonate_mmol_l"
+      ]
+    }
+  },
+  {
+    "code": "GLUCOSE",
+    "name": "Blood Glucose",
+    "category": "chemistry",
+    "cost_weight": 1.0,
+    "relevance_rules": {
+      "measured_parameters": ["glucose_mg_dl"]
     }
   },
   {

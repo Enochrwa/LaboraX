@@ -175,10 +175,56 @@ This mirrors the same reasoning already in `HLD.md` §7 (why the backend stayed 
 
 ## Phase 2 — Expansion (Sprints 7–11, ~10 weeks)
 
-### Sprint 7 — Clinical Chemistry Module
+### Sprint 7 — Clinical Chemistry Module ✅
 - Seed disease/lab-pattern data for Chemistry (LFTs, RFTs, electrolytes)
 - Extend `CaseGenerator`/result generator for chemistry result types
 - Frontend: Clinical Chemistry feature module
+
+**Deliverable:** Clinical Chemistry module usable end-to-end alongside Hematology — same
+generic pipeline, a second seeded department.
+
+> **Status:** implemented on `feature/sprint-seven-implementation`. **Zero changes** to
+> `CaseGenerator`, `ResultGenerator`, `relevance.py`, or `evaluator.py` — every one of those
+> services was already disease/category-agnostic by design (see their Sprint 2/3/4 docstrings),
+> so "extending" them for chemistry meant adding data, not code. `app/ml/data/
+> chemistry_diseases.json` seeds three disease templates spanning the three chemistry panels the
+> LLD calls out: **Acute Viral Hepatitis** (LFT — ALT/AST/bilirubin, hepatocellular pattern),
+> **Acute Kidney Injury** (RFT — urea/creatinine/potassium, reduced clearance), and **Diabetic
+> Ketoacidosis** (electrolytes — glucose/bicarbonate/potassium/sodium, a metabolic-acidosis
+> pattern deliberately chosen over a second, less-instructive electrolyte case). `test_catalog.json`
+> gains three new orderable tests (`RFT`, `ELECTROLYTES`, `GLUCOSE`) and `LFT` is extended with
+> `total_bilirubin_mg_dl`; `reference_ranges.py` gains the matching adult reference intervals
+> (creatinine sex-adjusted, same pattern as hemoglobin/ferritin). The one place that *did* need
+> new vocabulary, not new code, was the evaluator's domain dictionaries — exactly the extension
+> point their Sprint 4/5 docstrings anticipated: `preprocessing.PARAMETER_SYNONYMS` gains
+> hepatic/renal/electrolyte/glucose terms (ALT, AST, bilirubin, urea, creatinine, sodium,
+> potassium, chloride, bicarbonate, glucose) and `tutor/explanations.py` gains matching
+> `TOPIC_BY_PARAMETER` entries (four new topics: `hepatic_function`, `renal_function`,
+> `electrolyte_balance`, `glucose_metabolism`) plus a tutor explanation for every new
+> finding/polarity pair — `MasteryTracker` and `scoring.py` pick these topics up automatically
+> since they already aggregate whatever topic strings appear in `InterpretationResult` rows, no
+> change needed there either. **Frontend:** a new `features/clinicalChemistry/` module — same
+> shape as `features/hematology/` (`CaseIntakePage` → `TestOrderingPage` → `InterpretationPage`,
+> one hook per concern), reusing every category-agnostic API client and hook unchanged; the only
+> functional difference is `useNextCase` passing `category: "chemistry"` to `GET /cases/next`, the
+> same query param Sprint 6 already added for lecturer case assignment. New routes
+> `/chemistry/case(/…)` alongside the existing `/hematology/case(/…)` ones, plus full en/fr/rw
+> translations under a new `clinicalChemistry.*` i18n namespace (mirroring `hematology.*`) and four
+> new `scoring.topics.*` labels. **Home page:** `DashboardPage` — previously a fixed 480px column
+> of buttons that could only ever say "hematology" — is rewritten as a responsive module-launcher
+> grid (`xs`: 1 column, `sm`: 2, `lg`: 3) so a third, fourth, or fifth department is a one-entry
+> addition to the module list, not a layout rewrite; Hematology and Clinical Chemistry are live
+> tiles, Microbiology is shown as a disabled "coming soon" tile previewing Sprint 9. 22 new backend
+> tests (chemistry seed-data shape, category-filtered case/disease-listing routes, chemistry
+> `ResultGenerator`/`CaseGenerator` coverage, three chemistry golden-case regressions in
+> `AnswerEvaluator`, preprocessing/tutor vocabulary coverage) and 11 new frontend tests (the
+> `clinicalChemistry` module's `CaseIntakePage`/`TestOrderingPage`/`InterpretationPage` suites) —
+> 179 backend / 44 frontend tests total, all green; ruff, mypy (strict), ESLint, Prettier, tsc all
+> clean; 97.8% backend coverage. **CI:** added `.github/dependabot.yml` (weekly pip/npm/Actions
+> update PRs) and `.github/workflows/codeql.yml` (CodeQL static analysis for Python and
+> JS/TypeScript, on push/PR to `main` plus a weekly schedule) — the last gaps in the automated-checks
+> surface Sprint 6 otherwise already covered (ruff, mypy, pytest+coverage, ESLint, Prettier, tsc,
+> build, Docker build, smoke test, commitlint, Husky pre-commit/pre-push).
 
 ### Sprint 8 — Result Prediction Model
 - `ResultPredictor` service (Logistic Regression / Random Forest / XGBoost)

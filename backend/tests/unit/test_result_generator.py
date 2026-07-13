@@ -42,6 +42,34 @@ def _no_findings_disease() -> Disease:
     )
 
 
+def _acute_kidney_injury() -> Disease:
+    return Disease(
+        name="Acute Kidney Injury",
+        category=DiseaseCategory.CHEMISTRY,
+        symptom_template={},
+        lab_pattern_template={
+            "expected_findings": [],
+            "cbc_deltas": {
+                "urea_mg_dl": [40.0, 120.0],
+                "creatinine_mg_dl": [1.5, 5.0],
+                "potassium_mmol_l": [0.6, 2.0],
+            },
+            "blood_film_findings": [],
+        },
+        difficulty_levels={},
+    )
+
+
+def _rft_test() -> TestCatalog:
+    return TestCatalog(
+        code="RFT",
+        name="Renal Function Test",
+        category=DiseaseCategory.CHEMISTRY,
+        cost_weight=2.0,
+        relevance_rules={"measured_parameters": ["urea_mg_dl", "creatinine_mg_dl"]},
+    )
+
+
 def _cbc_test() -> TestCatalog:
     return TestCatalog(
         code="CBC",
@@ -177,3 +205,36 @@ def test_reticulocyte_elevated_for_malaria() -> None:
     _low, high = get_reference_range("reticulocyte_pct", "male")
     assert payload["values"]["reticulocyte_pct"] > high
     assert payload["flags"]["reticulocyte_pct"] == "high"
+
+
+def test_rft_panel_includes_every_measured_parameter() -> None:
+    """Sprint 7: a Clinical Chemistry RFT panel flows through the same,
+    unmodified `ResultGenerator` — only the reference ranges/deltas differ."""
+    generator = ResultGenerator()
+    disease = _acute_kidney_injury()
+    test = _rft_test()
+
+    payload = generator.generate(disease=disease, test=test, case_seed=7, patient_sex="female")
+
+    for parameter in test.relevance_rules["measured_parameters"]:
+        assert parameter in payload["values"]
+        assert parameter in payload["flags"]
+
+
+def test_creatinine_is_flagged_high_for_acute_kidney_injury() -> None:
+    generator = ResultGenerator()
+    disease = _acute_kidney_injury()
+    test = _rft_test()
+
+    payload = generator.generate(disease=disease, test=test, case_seed=123, patient_sex="male")
+
+    low, high = get_reference_range("creatinine_mg_dl", "male")
+    assert payload["values"]["creatinine_mg_dl"] > high
+    assert payload["flags"]["creatinine_mg_dl"] == "high"
+    assert low > 0
+
+
+def test_creatinine_reference_range_is_sex_adjusted() -> None:
+    male_low, male_high = get_reference_range("creatinine_mg_dl", "male")
+    female_low, female_high = get_reference_range("creatinine_mg_dl", "female")
+    assert (male_low, male_high) != (female_low, female_high)
