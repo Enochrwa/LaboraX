@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'Enochrwa/LaboraX'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Deploy step (to be configured)
         run: |
           echo "Backend config-as-code is ready: infra/render.yaml (Render) or infra/fly.toml (Fly.io)."
