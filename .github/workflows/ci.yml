@@ -33,7 +33,7 @@ jobs:
     env:
       TEST_DATABASE_URL: postgresql+asyncpg://laborax:laborax@localhost:5432/laborax_test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -84,7 +84,7 @@ jobs:
       run:
         working-directory: frontend
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -135,7 +135,7 @@ jobs:
       DATABASE_URL: postgresql+asyncpg://laborax:laborax@localhost:5432/laborax
       JWT_SECRET_KEY: ci-smoke-test-secret-key-not-for-production
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -173,7 +173,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [backend, frontend]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build backend image
         run: docker build -t laborax-backend:ci ./backend
       - name: Build frontend image
